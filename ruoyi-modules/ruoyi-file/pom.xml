@@ -3,16 +3,16 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-modules</artifactId>
+        <groupId>com.blog</groupId>
+        <artifactId>blog-modules</artifactId>
         <version>3.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-modules-file</artifactId>
+    <artifactId>blog-modules-file</artifactId>
 
     <description>
-        ruoyi-modules-file文件服务
+        blog-modules-file文件服务
     </description>
 
     <dependencies>
@@ -56,14 +56,14 @@
         
         <!-- RuoYi Api System -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-api-system</artifactId>
+            <groupId>com.blog</groupId>
+            <artifactId>blog-api-system</artifactId>
         </dependency>
         
         <!-- RuoYi Common Swagger -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
+            <groupId>com.blog</groupId>
+            <artifactId>blog-common-swagger</artifactId>
         </dependency>
         
     </dependencies>

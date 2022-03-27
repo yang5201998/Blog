@@ -19,35 +19,35 @@
 * 流量控制框架选型Sentinel，分布式事务选型Seata。
 * 提供了技术栈（[Vue3](https://v3.cn.vuejs.org) [Element Plus](https://element-plus.org/zh-CN) [Vite](https://cn.vitejs.dev)）版本[RuoYi-Cloud-Vue3](https://github.com/yangzongzhuan/RuoYi-Cloud-Vue3)，保持同步更新。
 * 如需不分离应用，请移步 [RuoYi](https://gitee.com/y_project/RuoYi)，如需分离应用，请移步 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
+* 阿里云折扣场：[点我进入](http://aly.blog.vip)，腾讯云秒杀场：[点我进入](http://txy.blog.vip)&nbsp;&nbsp;
 * 阿里云优惠券：[点我领取](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
-#### 友情链接 [若依/RuoYi-Cloud](https://gitee.com/zhangmrit/ruoyi-cloud) Ant Design版本。
+#### 友情链接 [若依/RuoYi-Cloud](https://gitee.com/zhangmrit/blog-cloud) Ant Design版本。
 
 ## 系统模块
 
 ~~~
-com.ruoyi     
-├── ruoyi-ui              // 前端框架 [80]
-├── ruoyi-gateway         // 网关模块 [8080]
-├── ruoyi-auth            // 认证中心 [9200]
-├── ruoyi-api             // 接口模块
-│       └── ruoyi-api-system                          // 系统接口
-├── ruoyi-common          // 通用模块
-│       └── ruoyi-common-core                         // 核心模块
-│       └── ruoyi-common-datascope                    // 权限范围
-│       └── ruoyi-common-datasource                   // 多数据源
-│       └── ruoyi-common-log                          // 日志记录
-│       └── ruoyi-common-redis                        // 缓存服务
-│       └── ruoyi-common-security                     // 安全模块
-│       └── ruoyi-common-swagger                      // 系统接口
-├── ruoyi-modules         // 业务模块
-│       └── ruoyi-system                              // 系统模块 [9201]
-│       └── ruoyi-gen                                 // 代码生成 [9202]
-│       └── ruoyi-job                                 // 定时任务 [9203]
-│       └── ruoyi-file                                // 文件服务 [9300]
-├── ruoyi-visual          // 图形化管理模块
-│       └── ruoyi-visual-monitor                      // 监控中心 [9100]
+com.blog     
+├── blog-ui              // 前端框架 [80]
+├── blog-gateway         // 网关模块 [8080]
+├── blog-auth            // 认证中心 [9200]
+├── blog-api             // 接口模块
+│       └── blog-api-system                          // 系统接口
+├── blog-common          // 通用模块
+│       └── blog-common-core                         // 核心模块
+│       └── blog-common-datascope                    // 权限范围
+│       └── blog-common-datasource                   // 多数据源
+│       └── blog-common-log                          // 日志记录
+│       └── blog-common-redis                        // 缓存服务
+│       └── blog-common-security                     // 安全模块
+│       └── blog-common-swagger                      // 系统接口
+├── blog-modules         // 业务模块
+│       └── blog-system                              // 系统模块 [9201]
+│       └── blog-gen                                 // 代码生成 [9202]
+│       └── blog-job                                 // 定时任务 [9203]
+│       └── blog-file                                // 文件服务 [9300]
+├── blog-visual          // 图形化管理模块
+│       └── blog-visual-monitor                      // 监控中心 [9100]
 ├──pom.xml                // 公共依赖
 ~~~
 
@@ -80,8 +80,8 @@ com.ruoyi
 - admin/admin123  
 - 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
 
-演示地址：http://ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
+演示地址：http://blog.vip  
+文档地址：http://doc.blog.vip
 
 ## 演示图
 

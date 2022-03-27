@@ -3,24 +3,24 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-common</artifactId>
+        <groupId>com.blog</groupId>
+        <artifactId>blog-common</artifactId>
         <version>3.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
-    <artifactId>ruoyi-common-log</artifactId>
+    <artifactId>blog-common-log</artifactId>
 	
     <description>
-        ruoyi-common-log日志记录
+        blog-common-log日志记录
     </description>
 
     <dependencies>
 		
         <!-- RuoYi Common Security -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <groupId>com.blog</groupId>
+            <artifactId>blog-common-security</artifactId>
         </dependency>
         
     </dependencies>
