@@ -1,4 +1,4 @@
-package com.blog.system;
+package com.blog.gen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,20 +7,20 @@ import com.blog.common.security.annotation.EnableRyFeignClients;
 import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
- * 系统模块
+ * 代码生成
  * 
  * @author blog
  */
 @EnableCustomConfig
-@EnableCustomSwagger2
+@EnableCustomSwagger2   
 @EnableRyFeignClients
 @SpringBootApplication
-public class RuoYiSystemApplication
+public class BlogGenApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(RuoYiSystemApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  系统模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlogGenApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  代码生成模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

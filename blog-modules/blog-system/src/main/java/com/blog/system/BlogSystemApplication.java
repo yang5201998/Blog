@@ -1,22 +1,26 @@
-package com.blog.modules.monitor;
+package com.blog.system;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import com.blog.common.security.annotation.EnableCustomConfig;
+import com.blog.common.security.annotation.EnableRyFeignClients;
+import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
- * 监控中心
+ * 系统模块
  * 
  * @author blog
  */
-@EnableAdminServer
+@EnableCustomConfig
+@EnableCustomSwagger2
+@EnableRyFeignClients
 @SpringBootApplication
-public class RuoYiMonitorApplication
+public class BlogSystemApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(RuoYiMonitorApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  监控中心启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlogSystemApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  系统模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

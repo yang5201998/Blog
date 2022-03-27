@@ -1,21 +1,26 @@
-package com.blog.gateway;
+package com.blog.job;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import com.blog.common.security.annotation.EnableCustomConfig;
+import com.blog.common.security.annotation.EnableRyFeignClients;
+import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
- * 网关启动程序
+ * 定时任务
  * 
  * @author blog
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-public class RuoYiGatewayApplication
+@EnableCustomConfig
+@EnableCustomSwagger2   
+@EnableRyFeignClients
+@SpringBootApplication
+public class BlogJobApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(RuoYiGatewayApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依网关启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlogJobApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  定时任务模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +
