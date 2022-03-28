@@ -10,7 +10,7 @@
 
     <name>blog</name>
     <url>http://www.blog.vip</url>
-    <description>若依微服务系统</description>
+    <description>博客微服务系统</description>
 
     <properties>
         <blog.version>3.4.0</blog.version>
@@ -155,9 +155,9 @@
             </dependency>
 
             <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
 
