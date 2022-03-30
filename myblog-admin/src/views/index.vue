@@ -276,12 +276,12 @@ export default {
       switch (type) {
         case "1":
           {
-            this.$router.push({ path: "/log/webVisit" });
+            this.$router.push({ path: "/system/log/logininfor" });
           }
           break;
         case "2":
           {
-            this.$router.push({ path: "/user/user" });
+            this.$router.push({ path: "/monitor/online" });
           }
           break;
         case "3":
