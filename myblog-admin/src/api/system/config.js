@@ -58,3 +58,11 @@ export function refreshCache() {
     method: 'delete'
   })
 }
+//获取系统参数
+export function getSystemConfig(params) {
+  return request({
+    url: process.env.ADMIN_API + '/systemConfig/getSystemConfig',
+    method: 'get',
+    params
+  })
+}

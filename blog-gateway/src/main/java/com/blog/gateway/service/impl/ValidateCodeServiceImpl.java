@@ -6,7 +6,9 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 
+import com.blog.gateway.config.CaptchaConfig;
 import com.blog.gateway.service.ValidateCodeService;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FastByteArrayOutputStream;
@@ -68,7 +70,10 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
             String capText = captchaProducerMath.createText();
             capStr = capText.substring(0, capText.lastIndexOf("@"));
             code = capText.substring(capText.lastIndexOf("@") + 1);
-            image = captchaProducerMath.createImage(capStr);
+            CaptchaConfig captchaConfig = new CaptchaConfig();
+            DefaultKaptcha kaptchaBeanMath = captchaConfig.getKaptchaBeanMath();
+            image =  kaptchaBeanMath.createImage(capStr);
+//            image = captchaProducerMath.createImage(capStr);
         }
         else if ("char".equals(captchaType))
         {
