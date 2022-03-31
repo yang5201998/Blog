@@ -56,8 +56,10 @@
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
+    <!-- 打印sql日志 -->
+    <logger name="com.blog.system.mapper" level="debug"/>
 
-    <!-- 系统模块日志级别控制  -->
+        <!-- 系统模块日志级别控制  -->
 	<logger name="com.blog" level="info" />
 	<!-- Spring日志级别控制  -->
 	<logger name="org.springframework" level="warn" />
@@ -65,7 +67,7 @@
 	<root level="info">
 		<appender-ref ref="console" />
 	</root>
-	
+
 	<!--系统操作日志-->
     <root level="info">
         <appender-ref ref="file_info" />

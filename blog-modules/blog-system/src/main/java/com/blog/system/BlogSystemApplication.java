@@ -1,5 +1,6 @@
 package com.blog.system;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.blog.common.security.annotation.EnableCustomConfig;
@@ -8,13 +9,14 @@ import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
  * 系统模块
- * 
+ *
  * @author blog
  */
 @EnableCustomConfig
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
+@MapperScan("com.blog.system.mapper")
 public class BlogSystemApplication
 {
     public static void main(String[] args)

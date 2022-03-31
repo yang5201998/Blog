@@ -158,14 +158,14 @@ export default {
     };
   },
   created() {
-    // init().then(response => {
-    //   if (response.code == this.$ECode.SUCCESS) {
-        this.blogTotal = 14;
-        this.commentTotal = 13;
-        this.userTotal = 6;
-        this.visitAddTotal = 97;
-    //   }
-    // });
+    init().then(response => {
+      if (response.code == 200) {
+        this.blogTotal = response.data.blogCount;
+        this.commentTotal = response.data.commentCount;
+        this.userTotal = response.data.userCount;
+        this.visitAddTotal = response.data.visitAddTotal;
+      }
+    });
 
     // getVisitByWeek().then(response => {
     //   if (response.code == this.$ECode.SUCCESS) {
