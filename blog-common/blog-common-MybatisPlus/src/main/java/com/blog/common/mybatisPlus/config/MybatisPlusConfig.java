@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
    * @描述:  分页插件配置类
 */
 @Configuration
-//@MapperScan(basePackages={"com.blog.**.dao","com.blog.**.mapper"})
+@MapperScan(basePackages={"com.blog.**.dao","com.blog.**.mapper"})
 public class MybatisPlusConfig {
 
     /**
