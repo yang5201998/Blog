@@ -16,7 +16,7 @@ import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
-@MapperScan("com.blog.system.mapper")
+@MapperScan("com.blog.**.mapper")
 public class BlogSystemApplication
 {
     public static void main(String[] args)
