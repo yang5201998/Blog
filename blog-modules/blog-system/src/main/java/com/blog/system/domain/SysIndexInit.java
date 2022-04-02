@@ -7,7 +7,7 @@ import lombok.Data;
  * @create 2022-03-31-10:25
  */
 @Data
-public class SysInit {
+public class SysIndexInit {
     //博客总数
     private Long blogCount;
 
@@ -19,4 +19,6 @@ public class SysInit {
 
     //今日访问数
     private Long visitAddTotal;
+
+
 }

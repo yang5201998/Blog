@@ -167,18 +167,19 @@ export default {
       }
     });
 
-    // getVisitByWeek().then(response => {
-    //   if (response.code == this.$ECode.SUCCESS) {
-        var visitByWeek = {"date":["03-24","03-25","03-26","03-27","03-28","03-29","03-30"],"uv":[0,0,0,65,119,127,99],"pv":[0,0,0,420,666,723,625]};
+    getVisitByWeek().then(response => {
+      if (response.code == 200) {
+        // var visitByWeek = {"date":["03-24","03-25","03-26","03-27","03-28","03-29","03-30"],"uv":[0,0,0,65,119,127,99],"pv":[0,0,0,420,666,723,625]};
+        var visitByWeek = response.data;
         var lineChartData = {
-          date: ["03-24","03-25","03-26","03-27","03-28","03-29","03-30"],
-          expectedData: [0.0,0.0,0.0,420.0,666.0,723.0,613.0],
-          actualData: [0.0,0.0,0.0,65.0,119.0,127.0,97.0]
+          date: visitByWeek.weekdays,
+          expectedData: visitByWeek.uv,
+          actualData: visitByWeek.pv
         };
         this.lineChartData = lineChartData;
         this.showLineChart = true;
-    //   }
-    // });
+      }
+    });
 
     //通过标签获取博客数目
     // getBlogCountByTag().then(response => {

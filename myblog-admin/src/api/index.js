@@ -9,28 +9,28 @@ export function init() {
 
 export function getVisitByWeek() {
   return request({
-    url: process.env.ADMIN_API + '/index/getVisitByWeek',
+    url: '/system/index/visitByWeek',
     method: 'get'
   })
 }
 
 export function getBlogCountByTag() {
   return request({
-    url: process.env.ADMIN_API + '/index/getBlogCountByTag',
+    url: '/system/index/getBlogCountByTag',
     method: 'get'
   })
 }
 
 export function getBlogCountByBlogSort() {
   return request({
-    url: process.env.ADMIN_API + '/index/getBlogCountByBlogSort',
+    url: '/system/index/getBlogCountByBlogSort',
     method: 'get'
   })
 }
 
 export function getBlogContributeCount() {
   return request({
-    url: process.env.ADMIN_API + '/index/getBlogContributeCount',
+    url: '/system/index/getBlogContributeCount',
     method: 'get'
   })
 }

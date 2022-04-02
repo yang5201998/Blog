@@ -16,7 +16,19 @@
     </description>
 
     <dependencies>
+<!--        &lt;!&ndash;   manage模块&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.blog</groupId>-->
+<!--            <artifactId>blog-modules-manage</artifactId>-->
+<!--            <version>3.4.0</version>-->
+<!--        </dependency>-->
 
+        <!--   MybatisPlus模块-->
+        <dependency>
+            <groupId>com.blog</groupId>
+            <artifactId>blog-common-MybatisPlus</artifactId>
+            <version>3.4.0</version>
+        </dependency>
     	<!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -72,11 +84,6 @@
             <artifactId>blog-common-log</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.blog</groupId>
-            <artifactId>blog-common-MybatisPlus</artifactId>
-            <version>3.4.0</version>
-        </dependency>
         <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.blog</groupId>
