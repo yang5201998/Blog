@@ -1,10 +1,7 @@
 package com.blog.system.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -20,7 +17,7 @@ import com.blog.system.service.ISysLogininforService;
 /**
  * 系统访问日志情况信息 服务层处理
  *
- * @author blog
+ * @author manage
  */
 @Service
 public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper,SysLogininfor> implements ISysLogininforService
@@ -55,27 +52,24 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper,Sy
        * @Param: * @param
        * @Author: yangtingwei
        * @Date: 2022/3/31 11:48
-       * @描述:  根据ip查询当日访问量
+       * @描述:  查询当日访问ip数
     */
     @Override
-    public Long selectLogininforCount() {
-        //获取当前时间
-        Date date=new Date();
-        //获取今天的0点0分0秒
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()), ZoneId.systemDefault());
-        LocalDateTime startOfDay = localDateTime.with(LocalTime.MIN);
-        //获取今天的23点59分59秒
-        Date startdate = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
-        LocalDateTime endOfDay = localDateTime.with(LocalTime.MAX);
-        Date enddate = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
-        //格式转换为yyyy-MM-dd HH:mm:ss
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String startDate = sdf.format(startdate);
-        String endDate = sdf.format(enddate);
-        Long aLong = logininforMapper.selectCountIpOne(startDate, endDate);
+    public Long selectLogininforIpCount(LocalDate localDate) {
+        Long aLong = logininforMapper.selectCountIpOne(localDate);
         return aLong;
     }
-
+    /**
+       * @Param: * @param tenDaysAgo
+       * @Author: yangtingwei
+       * @Date: 2022/4/6 10:46
+       * @描述: 查询当日访问总量
+    */
+    @Override
+    public Long selectLogininforCount(LocalDate tenDaysAgo) {
+        Long aLong = logininforMapper.selectCountSum(tenDaysAgo);
+        return aLong;
+    }
     /**
      * 批量删除系统登录日志
      *
@@ -96,4 +90,6 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper,Sy
     {
         logininforMapper.cleanLogininfor();
     }
+
+
 }

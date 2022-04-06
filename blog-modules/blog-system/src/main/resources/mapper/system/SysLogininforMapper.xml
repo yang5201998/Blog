@@ -39,12 +39,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 		order by info_id desc
 	</select>
-	<select id="selectCountIpOne" parameterType="string" resultType="java.lang.Long">
+
+	<select id="selectCountIpOne" resultType="java.lang.Long">
 		SELECT count(DISTINCT ipaddr)
  		FROM sys_logininfor
- 		WHERE (access_time BETWEEN #{startDate} AND #{endDate})
+ 		WHERE date(access_time) = #{localDate}
 	</select>
-
+	<select id="selectCountSum" resultType="java.lang.Long">
+		SELECT count(1)
+ 		FROM sys_logininfor
+ 		WHERE date(access_time) = #{localDate}
+	</select>
 
 	<delete id="deleteLogininforByIds" parameterType="java.lang.Long">
  		delete from sys_logininfor where info_id in

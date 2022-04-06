@@ -1,9 +1,11 @@
 package com.blog.system.mapper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.system.api.domain.SysLogininfor;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 系统访问日志情况信息 数据层
  *
- * @author blog
+ * @author manage
  */
 @Mapper
 public interface SysLogininforMapper extends BaseMapper<SysLogininfor>
@@ -46,7 +48,18 @@ public interface SysLogininforMapper extends BaseMapper<SysLogininfor>
      * @return 结果
      */
     public int cleanLogininfor();
-
-
-    Long selectCountIpOne(@Param("startDate") String startDate,@Param("endDate") String endDate);
+/**
+   * @Param: * @param localDate
+   * @Author: yangtingwei
+   * @Date: 2022/4/6 10:41
+   * @描述: 获取每日ip数
+*/
+    Long selectCountIpOne(LocalDate localDate);
+    /**
+     * @Param: * @param localDate
+     * @Author: yangtingwei
+     * @Date: 2022/4/6 10:41
+     * @描述: 获取每日访问总量
+     */
+    Long selectCountSum(LocalDate tenDaysAgo);
 }

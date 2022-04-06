@@ -1,5 +1,7 @@
 package com.blog.system.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -8,7 +10,7 @@ import com.blog.system.api.domain.SysLogininfor;
 /**
  * 系统访问日志情况信息 服务层
  *
- * @author blog
+ * @author manage
  */
 public interface ISysLogininforService extends IService<SysLogininfor>
 {
@@ -28,12 +30,18 @@ public interface ISysLogininforService extends IService<SysLogininfor>
     public List<SysLogininfor> selectLogininforList(SysLogininfor logininfor);
 
     /**
-     * 查询系统登录日志当日总数
+     * 查询系统登录日志当日ip总数
      *
      * @return 登录记录当日总数
      */
-    public Long selectLogininforCount();
+    public Long selectLogininforIpCount(LocalDate localDate);
 
+    /**
+     * 查询系统登录日志当日访问总量
+     *
+     * @return 登录记录当日总数
+     */
+    public Long selectLogininforCount(LocalDate tenDaysAgo);
     /**
      * 批量删除系统登录日志
      *
@@ -46,4 +54,5 @@ public interface ISysLogininforService extends IService<SysLogininfor>
      * 清空系统登录日志
      */
     public void cleanLogininfor();
+
 }
