@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.manage.mapper.BlogSortMapper">
+
+    <resultMap type="BlogSort" id="BlogSortResult">
+        <result property="uid"    column="uid"    />
+        <result property="blogSortName"    column="sort_name"    />
+        <result property="blogSortContent"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="blogSorts"    column="sort"    />
+        <result property="blogSortSum"    column="click_count"    />
+    </resultMap>
+
+    <sql id="selectBlogSortVo">
+        select row_number()over() AS id ,uid, sort_name, content, create_time, update_time, status, sort, click_count from back_blog_sort
+    </sql>
+
+    <select id="selectBlogSortList" parameterType="BlogSort" resultMap="BlogSortResult">
+        <include refid="selectBlogSortVo"/>
+        <where>
+            <if test="blogSortName != null  and blogSortName != ''"> and sort_name like concat('%', #{blogSortName}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="blogSortContent != null  and blogSortContent != ''"> and content = #{blogSortContent}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="blogSorts != null "> and sort = #{blogSorts}</if>
+            <if test="blogSortSum != null "> and click_count = #{blogSortSum}</if>
+        </where>
+    </select>
+
+    <select id="selectBlogSortByUid" parameterType="String" resultMap="BlogSortResult">
+        <include refid="selectBlogSortVo"/>
+        where uid = #{uid}
+    </select>
+
+    <insert id="insertBlogSort" parameterType="BlogSort">
+        insert into back_blog_sort
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="blogSortName != null">sort_name,</if>
+            <if test="blogSortContent != null">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="blogSorts != null">sort,</if>
+            <if test="blogSortSum != null">click_count,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="blogSortName != null">#{blogSortName},</if>
+            <if test="blogSortContent != null">#{blogSortContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="blogSorts != null">#{blogSorts},</if>
+            <if test="blogSortSum != null">#{blogSortSum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlogSort" parameterType="BlogSort">
+        update back_blog_sort
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="blogSortName != null">sort_name = #{blogSortName},</if>
+            <if test="blogSortContent != null">content = #{blogSortContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="blogSorts != null">sort = #{blogSorts},</if>
+            <if test="blogSortSum != null">click_count = #{blogSortSum},</if>
+        </trim>
+        where uid = #{uid}
+    </update>
+
+    <delete id="deleteBlogSortByUid" parameterType="String">
+        delete from back_blog_sort where uid = #{uid}
+    </delete>
+
+    <delete id="deleteBlogSortByUids" parameterType="String">
+        delete from back_blog_sort where uid in
+        <foreach item="uid" collection="array" open="(" separator="," close=")">
+            #{uid}
+        </foreach>
+    </delete>
+</mapper>

@@ -15,7 +15,7 @@ import com.blog.common.log.annotation.Log;
 import com.blog.common.log.enums.BusinessType;
 import com.blog.common.security.annotation.RequiresPermissions;
 import ${packageName}.domain.${ClassName};
-import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.service.${ClassName}Service;
 import com.blog.common.core.web.controller.BaseController;
 import com.blog.common.core.web.domain.AjaxResult;
 import com.blog.common.core.utils.poi.ExcelUtil;
@@ -26,7 +26,7 @@ import com.blog.common.core.web.page.TableDataInfo;
 
 /**
  * ${functionName}Controller
- * 
+ *
  * @author ${author}
  * @date ${datetime}
  */
@@ -35,7 +35,7 @@ import com.blog.common.core.web.page.TableDataInfo;
 public class ${ClassName}Controller extends BaseController
 {
     @Autowired
-    private I${ClassName}Service ${className}Service;
+    private ${ClassName}Service ${className}Service;
 
     /**
      * 查询${functionName}列表
