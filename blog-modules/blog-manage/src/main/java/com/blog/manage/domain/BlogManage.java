@@ -6,21 +6,23 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 博客对象 back_blog
+ * 博客管理对象 back_blog
  *
- * @author blog
- * @date 2022-04-01
+ * @author ytw杨
+ * @date 2022-04-11
  */
 public class BlogManage extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    //序号
+    private Long id;
     /** 唯一uid */
     private String uid;
 
     /** 博客标题 */
     @Excel(name = "博客标题")
-    private String title;
+    private String blogTitle;
 
     /** 博客简介 */
     @Excel(name = "博客简介")
@@ -54,17 +56,9 @@ public class BlogManage extends BaseEntity
     @Excel(name = "管理员uid")
     private String adminUid;
 
-    /** 是否原创（0:不是 1：是） */
-    @Excel(name = "是否原创", readConverterExp = "0=:不是,1=：是")
-    private String isOriginal;
-
     /** 作者 */
     @Excel(name = "作者")
     private String author;
-
-    /** 文章出处 */
-    @Excel(name = "文章出处")
-    private String articlesPart;
 
     /** 博客分类UID */
     @Excel(name = "博客分类UID")
@@ -86,25 +80,6 @@ public class BlogManage extends BaseEntity
     @Excel(name = "是否开启评论(0:否 1:是)")
     private Integer openComment;
 
-    /** 类型【0 博客， 1：推广】 */
-    @Excel(name = "类型【0 博客， 1：推广】")
-    private Integer type;
-
-    /** 外链【如果是推广，那么将跳转到外链】 */
-    @Excel(name = "外链【如果是推广，那么将跳转到外链】")
-    private String outsideLink;
-
-    /** 唯一oid */
-    private Long oid;
-
-    /** 投稿用户UID */
-    @Excel(name = "投稿用户UID")
-    private String userUid;
-
-    /** 文章来源【0 后台添加，1 用户投稿】 */
-    @Excel(name = "文章来源【0 后台添加，1 用户投稿】")
-    private Integer articleSource;
-
     public void setUid(String uid)
     {
         this.uid = uid;
@@ -114,15 +89,15 @@ public class BlogManage extends BaseEntity
     {
         return uid;
     }
-    public void setTitle(String title)
-    {
-        this.title = title;
+
+    public String getBlogTitle() {
+        return blogTitle;
     }
 
-    public String getTitle()
-    {
-        return title;
+    public void setBlogTitle(String blogTitle) {
+        this.blogTitle = blogTitle;
     }
+
     public void setSummary(String summary)
     {
         this.summary = summary;
@@ -195,15 +170,6 @@ public class BlogManage extends BaseEntity
     {
         return adminUid;
     }
-    public void setIsOriginal(String isOriginal)
-    {
-        this.isOriginal = isOriginal;
-    }
-
-    public String getIsOriginal()
-    {
-        return isOriginal;
-    }
     public void setAuthor(String author)
     {
         this.author = author;
@@ -212,15 +178,6 @@ public class BlogManage extends BaseEntity
     public String getAuthor()
     {
         return author;
-    }
-    public void setArticlesPart(String articlesPart)
-    {
-        this.articlesPart = articlesPart;
-    }
-
-    public String getArticlesPart()
-    {
-        return articlesPart;
     }
     public void setBlogSortUid(String blogSortUid)
     {
@@ -267,57 +224,12 @@ public class BlogManage extends BaseEntity
     {
         return openComment;
     }
-    public void setType(Integer type)
-    {
-        this.type = type;
-    }
-
-    public Integer getType()
-    {
-        return type;
-    }
-    public void setOutsideLink(String outsideLink)
-    {
-        this.outsideLink = outsideLink;
-    }
-
-    public String getOutsideLink()
-    {
-        return outsideLink;
-    }
-    public void setOid(Long oid)
-    {
-        this.oid = oid;
-    }
-
-    public Long getOid()
-    {
-        return oid;
-    }
-    public void setUserUid(String userUid)
-    {
-        this.userUid = userUid;
-    }
-
-    public String getUserUid()
-    {
-        return userUid;
-    }
-    public void setArticleSource(Integer articleSource)
-    {
-        this.articleSource = articleSource;
-    }
-
-    public Integer getArticleSource()
-    {
-        return articleSource;
-    }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("uid", getUid())
-            .append("title", getTitle())
+            .append("blogTitle", getBlogTitle())
             .append("summary", getSummary())
             .append("content", getContent())
             .append("tagUid", getTagUid())
@@ -328,19 +240,12 @@ public class BlogManage extends BaseEntity
             .append("createTime", getCreateTime())
             .append("updateTime", getUpdateTime())
             .append("adminUid", getAdminUid())
-            .append("isOriginal", getIsOriginal())
             .append("author", getAuthor())
-            .append("articlesPart", getArticlesPart())
             .append("blogSortUid", getBlogSortUid())
             .append("level", getLevel())
             .append("isPublish", getIsPublish())
             .append("sort", getSort())
             .append("openComment", getOpenComment())
-            .append("type", getType())
-            .append("outsideLink", getOutsideLink())
-            .append("oid", getOid())
-            .append("userUid", getUserUid())
-            .append("articleSource", getArticleSource())
             .toString();
     }
 }
