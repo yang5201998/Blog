@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="博客标题" prop="title">
+      <el-form-item label="博客标题" prop="blogTitle">
         <el-input
           v-model="queryParams.title"
           placeholder="请输入博客标题"
@@ -9,133 +9,55 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="博客简介" prop="summary">
-        <el-input
-          v-model="queryParams.summary"
-          placeholder="请输入博客简介"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="分类名称" prop="blogSortName">
+      <el-select v-model="formInline.blogSortName" multiple collapse-tag placeholder="请选择分类名称">
+       <el-option
+          v-for="item in blogSortNames"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       </el-form-item>
-      <el-form-item label="标签uid" prop="tagUid">
-        <el-input
-          v-model="queryParams.tagUid"
-          placeholder="请输入标签uid"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="标签名称" prop="blogTagName">
+      <el-select v-model="formInline.blogTagName" multiple collapse-tag placeholder="请选择标签名称">
+       <el-option
+          v-for="item in blogTagNames"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       </el-form-item>
-      <el-form-item label="博客点击数" prop="clickCount">
-        <el-input
-          v-model="queryParams.clickCount"
-          placeholder="请输入博客点击数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="博客收藏数" prop="collectCount">
-        <el-input
-          v-model="queryParams.collectCount"
-          placeholder="请输入博客收藏数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="标题图片uid" prop="fileUid">
-        <el-input
-          v-model="queryParams.fileUid"
-          placeholder="请输入标题图片uid"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="管理员uid" prop="adminUid">
-        <el-input
-          v-model="queryParams.adminUid"
-          placeholder="请输入管理员uid"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="是否原创" prop="isOriginal">
-        <el-input
-          v-model="queryParams.isOriginal"
-          placeholder="请输入是否原创"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="作者" prop="author">
-        <el-input
-          v-model="queryParams.author"
-          placeholder="请输入作者"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="文章出处" prop="articlesPart">
-        <el-input
-          v-model="queryParams.articlesPart"
-          placeholder="请输入文章出处"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="博客分类UID" prop="blogSortUid">
-        <el-input
-          v-model="queryParams.blogSortUid"
-          placeholder="请输入博客分类UID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="推荐等级(0:正常)" prop="level">
-        <el-input
+      <el-form-item label="推荐等级" prop="level">
+        <el-select
           v-model="queryParams.level"
-          placeholder="请输入推荐等级(0:正常)"
+          placeholder="推荐等级"
           clearable
-          @keyup.enter.native="handleQuery"
-        />
+          style="width: 240px"
+        >
+          <el-option
+            v-for="dict in dict.type.blog_level"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="是否发布：0：否，1：是" prop="isPublish">
-        <el-input
-          v-model="queryParams.isPublish"
-          placeholder="请输入是否发布：0：否，1：是"
+        <el-form-item label="发布状态" prop="status">
+        <el-select
+          v-model="queryParams.status"
+          placeholder="发布状态"
           clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="排序字段" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入排序字段"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="是否开启评论(0:否 1:是)" prop="openComment">
-        <el-input
-          v-model="queryParams.openComment"
-          placeholder="请输入是否开启评论(0:否 1:是)"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="投稿用户UID" prop="userUid">
-        <el-input
-          v-model="queryParams.userUid"
-          placeholder="请输入投稿用户UID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="文章来源【0 后台添加，1 用户投稿】" prop="articleSource">
-        <el-input
-          v-model="queryParams.articleSource"
-          placeholder="请输入文章来源【0 后台添加，1 用户投稿】"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+          style="width: 240px"
+        >
+          <el-option
+            v-for="dict in dict.type.blog_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -176,23 +98,13 @@
           v-hasPermi="['manage:blogManage:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['manage:blogManage:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="blogManageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一uid" align="center" prop="uid" />
-      <el-table-column label="博客标题" align="center" prop="title" />
+      <el-table-column label="序号" align="center" prop="id" />
+      <el-table-column label="博客标题" align="center" prop="blogTitle" />
       <el-table-column label="博客简介" align="center" prop="summary" />
       <el-table-column label="博客内容" align="center" prop="content" />
       <el-table-column label="标签uid" align="center" prop="tagUid" />
@@ -201,19 +113,12 @@
       <el-table-column label="标题图片uid" align="center" prop="fileUid" />
       <el-table-column label="状态" align="center" prop="status" />
       <el-table-column label="管理员uid" align="center" prop="adminUid" />
-      <el-table-column label="是否原创" align="center" prop="isOriginal" />
       <el-table-column label="作者" align="center" prop="author" />
-      <el-table-column label="文章出处" align="center" prop="articlesPart" />
       <el-table-column label="博客分类UID" align="center" prop="blogSortUid" />
       <el-table-column label="推荐等级(0:正常)" align="center" prop="level" />
       <el-table-column label="是否发布：0：否，1：是" align="center" prop="isPublish" />
       <el-table-column label="排序字段" align="center" prop="sort" />
       <el-table-column label="是否开启评论(0:否 1:是)" align="center" prop="openComment" />
-      <el-table-column label="类型【0 博客， 1：推广】" align="center" prop="type" />
-      <el-table-column label="外链【如果是推广，那么将跳转到外链】" align="center" prop="outsideLink" />
-      <el-table-column label="唯一oid" align="center" prop="oid" />
-      <el-table-column label="投稿用户UID" align="center" prop="userUid" />
-      <el-table-column label="文章来源【0 后台添加，1 用户投稿】" align="center" prop="articleSource" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -254,9 +159,6 @@
         <el-form-item label="博客内容">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="标签uid" prop="tagUid">
-          <el-input v-model="form.tagUid" placeholder="请输入标签uid" />
-        </el-form-item>
         <el-form-item label="博客点击数" prop="clickCount">
           <el-input v-model="form.clickCount" placeholder="请输入博客点击数" />
         </el-form-item>
@@ -269,17 +171,8 @@
         <el-form-item label="管理员uid" prop="adminUid">
           <el-input v-model="form.adminUid" placeholder="请输入管理员uid" />
         </el-form-item>
-        <el-form-item label="是否原创" prop="isOriginal">
-          <el-input v-model="form.isOriginal" placeholder="请输入是否原创" />
-        </el-form-item>
         <el-form-item label="作者" prop="author">
           <el-input v-model="form.author" placeholder="请输入作者" />
-        </el-form-item>
-        <el-form-item label="文章出处" prop="articlesPart">
-          <el-input v-model="form.articlesPart" placeholder="请输入文章出处" />
-        </el-form-item>
-        <el-form-item label="博客分类UID" prop="blogSortUid">
-          <el-input v-model="form.blogSortUid" placeholder="请输入博客分类UID" />
         </el-form-item>
         <el-form-item label="推荐等级(0:正常)" prop="level">
           <el-input v-model="form.level" placeholder="请输入推荐等级(0:正常)" />
@@ -292,15 +185,6 @@
         </el-form-item>
         <el-form-item label="是否开启评论(0:否 1:是)" prop="openComment">
           <el-input v-model="form.openComment" placeholder="请输入是否开启评论(0:否 1:是)" />
-        </el-form-item>
-        <el-form-item label="外链【如果是推广，那么将跳转到外链】" prop="outsideLink">
-          <el-input v-model="form.outsideLink" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="投稿用户UID" prop="userUid">
-          <el-input v-model="form.userUid" placeholder="请输入投稿用户UID" />
-        </el-form-item>
-        <el-form-item label="文章来源【0 后台添加，1 用户投稿】" prop="articleSource">
-          <el-input v-model="form.articleSource" placeholder="请输入文章来源【0 后台添加，1 用户投稿】" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -316,8 +200,12 @@ import { listBlogManage, getBlogManage, delBlogManage, addBlogManage, updateBlog
 
 export default {
   name: "BlogManage",
+  dicts: ['blog_level','blog_status'],
   data() {
     return {
+      blogSortNames:[],
+
+      blogTagNames:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -349,18 +237,12 @@ export default {
         fileUid: null,
         status: null,
         adminUid: null,
-        isOriginal: null,
         author: null,
-        articlesPart: null,
         blogSortUid: null,
         level: null,
         isPublish: null,
         sort: null,
-        openComment: null,
-        type: null,
-        outsideLink: null,
-        userUid: null,
-        articleSource: null
+        openComment: null
       },
       // 表单参数
       form: {},
@@ -380,12 +262,6 @@ export default {
         ],
         openComment: [
           { required: true, message: "是否开启评论(0:否 1:是)不能为空", trigger: "blur" }
-        ],
-        type: [
-          { required: true, message: "类型【0 博客， 1：推广】不能为空", trigger: "change" }
-        ],
-        articleSource: [
-          { required: true, message: "文章来源【0 后台添加，1 用户投稿】不能为空", trigger: "blur" }
         ]
       }
     };
@@ -423,19 +299,12 @@ export default {
         createTime: null,
         updateTime: null,
         adminUid: null,
-        isOriginal: null,
         author: null,
-        articlesPart: null,
         blogSortUid: null,
         level: null,
         isPublish: null,
         sort: null,
-        openComment: null,
-        type: null,
-        outsideLink: null,
-        oid: null,
-        userUid: null,
-        articleSource: null
+        openComment: null
       };
       this.resetForm("form");
     },
