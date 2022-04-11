@@ -62,13 +62,13 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="blogSortList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" ref="blogSortTable" :data="blogSortList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="id" />
       <el-table-column label="分类名称" align="center" prop="blogSortName" />
       <el-table-column label="分类简介" align="center" prop="blogSortContent" />
-      <el-table-column label="文章引用数" align="center" prop="blogSortSum" />
-      <el-table-column label="分类排序" align="center" prop="blogSorts" />
+      <el-table-column label="使用量" sortable align="center" prop="blogSortSum" />
+      <el-table-column label="分类排序" sortable align="center" prop="blogSorts" />
        <el-table-column label="状态" align="center" width="100">
         <template slot-scope="scope">
           <el-switch
@@ -79,12 +79,12 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column label="创建时间" sortable align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-            <el-table-column label="修改时间" align="center" prop="updateTime" width="180">
+            <el-table-column label="修改时间" sortable align="center" prop="updateTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.updateTime) }}</span>
         </template>
@@ -217,13 +217,13 @@ export default {
     },
         // 分类状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      let text = row.status === "0" ? "停用" : "启用";
       this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
         return changeBlogSortStatus(row.uid, row.status);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function() {
-        row.status = row.status === "0" ? "1" : "0";
+        row.status = row.status === "0" ? "0" : "1";
       });
     },
     // 取消按钮
@@ -248,6 +248,7 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+      this.$refs.blogSortTable.clearSort();
       this.queryParams.pageNum = 1;
       this.getList();
     },
@@ -266,6 +267,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
+      this.form.status='0';
       this.title = "添加博客分类";
     },
     /** 修改按钮操作 */
@@ -300,8 +302,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      console.log("row",row)
       const uids = row.uid || this.ids;
-      this.$modal.confirm('是否确认删除博客分类编号为"' + uids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除博客分类序号为"' + row.id + '"的数据项？').then(function() {
         return delBlogSort(uids);
       }).then(() => {
         this.getList();

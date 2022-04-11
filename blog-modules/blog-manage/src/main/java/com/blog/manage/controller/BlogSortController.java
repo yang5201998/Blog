@@ -87,12 +87,25 @@ public class BlogSortController extends BaseController
      */
     @RequiresPermissions("manage:blogSort:edit")
     @Log(title = "博客分类", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/edit")
     public AjaxResult edit(@RequestBody BlogSort blogSort)
     {
         return toAjax(blogSortService.updateBlogSort(blogSort));
     }
 
+    /*
+    * 博客分类状态修改
+    * @author ytw杨
+    * @date 9/4/2022 下午11:47
+    * @param [blogSort]
+     *@return com.blog.common.core.web.domain.AjaxResult
+    */
+    @RequiresPermissions("manage:blogSort:changeStatus")
+    @Log(title = "博客分类", businessType = BusinessType.UPDATE)
+    @PutMapping("/changeStatus")
+    public AjaxResult changeStatus(@RequestBody BlogSort blogSort){
+       return toAjax(blogSortService.updateBlogSortStatus(blogSort));
+    }
     /**
      * 删除博客分类
      */

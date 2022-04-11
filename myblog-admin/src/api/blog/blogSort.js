@@ -16,10 +16,10 @@ export function getBlogSort(uid) {
     method: 'get'
   })
 }
-// 角色状态修改
-export function changeBlogSortStatus(roleId, status) {
+// 博客分类状态修改
+export function changeBlogSortStatus(uid, status) {
   const data = {
-    roleId,
+    uid,
     status
   }
   return request({
@@ -40,7 +40,7 @@ export function addBlogSort(data) {
 // 修改博客分类
 export function updateBlogSort(data) {
   return request({
-    url: '/manage/blogSort',
+    url: '/manage/blogSort/edit',
     method: 'put',
     data: data
   })

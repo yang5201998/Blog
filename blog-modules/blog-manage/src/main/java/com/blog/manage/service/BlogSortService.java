@@ -61,4 +61,13 @@ public interface BlogSortService extends IService<BlogSort>
      * @return 结果
      */
     public int deleteBlogSortByUid(String uid);
+
+    /*
+    * 博客分类状态修改
+    * @author ytw杨
+    * @date 9/4/2022 下午11:49
+    * @param [blogSort]
+     * @return int
+    */
+    public int updateBlogSortStatus(BlogSort blogSort);
 }

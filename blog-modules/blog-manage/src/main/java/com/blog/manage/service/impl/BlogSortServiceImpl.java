@@ -1,9 +1,11 @@
 package com.blog.manage.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.core.utils.DateUtils;
+import com.blog.common.core.utils.JwtUtils;
 import com.blog.manage.service.BlogSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,10 @@ public class BlogSortServiceImpl extends ServiceImpl<BlogSortMapper,BlogSort> im
     @Override
     public int insertBlogSort(BlogSort blogSort)
     {
+        if (blogSort.getUid()==null || (" ").equals(blogSort.getUid())){
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            blogSort.setUid(uuid);
+        }
         blogSort.setCreateTime(DateUtils.getNowDate());
         return blogSortMapper.insertBlogSort(blogSort);
     }
@@ -95,5 +101,17 @@ public class BlogSortServiceImpl extends ServiceImpl<BlogSortMapper,BlogSort> im
     public int deleteBlogSortByUid(String uid)
     {
         return blogSortMapper.deleteBlogSortByUid(uid);
+    }
+
+    /**
+    * 博客分类状态修改
+    * @author ytw杨
+    * @date 9/4/2022 下午11:55
+    * @param [blogSort]
+    * @return int
+    */
+    @Override
+    public int updateBlogSortStatus(BlogSort blogSort) {
+        return blogSortMapper.updateBlogSort(blogSort);
     }
 }
