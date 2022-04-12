@@ -1,7 +1,6 @@
 package ${packageName}.service;
 
 import java.util.List;
-import
 import com.baomidou.mybatisplus.extension.service.Service; ${packageName}.domain.${ClassName};
 
 /**

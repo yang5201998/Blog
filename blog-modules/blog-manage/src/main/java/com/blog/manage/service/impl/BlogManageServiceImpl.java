@@ -1,6 +1,5 @@
 package com.blog.manage.service.impl;
 
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.core.utils.DateUtils;
 import com.blog.manage.domain.BlogManage;
@@ -11,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
 /**
- * 博客Service业务层处理
+ * 博客管理Service业务层处理
  *
- * @author blog
- * @date 2022-04-01
+ * @author ytw杨
+ * @date 2022-04-11
  */
 @Service
 public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogManage> implements BlogManageService
@@ -24,10 +25,10 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     private BlogManageMapper blogManageMapper;
 
     /**
-     * 查询博客
+     * 查询博客管理
      *
-     * @param uid 博客主键
-     * @return 博客
+     * @param uid 博客管理主键
+     * @return 博客管理
      */
     @Override
     public BlogManage selectBlogManageByUid(String uid)
@@ -36,10 +37,10 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     }
 
     /**
-     * 查询博客列表
+     * 查询博客管理列表
      *
-     * @param blogManage 博客
-     * @return 博客
+     * @param blogManage 博客管理
+     * @return 博客管理
      */
     @Override
     public List<BlogManage> selectBlogManageList(BlogManage blogManage)
@@ -48,9 +49,9 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     }
 
     /**
-     * 新增博客
+     * 新增博客管理
      *
-     * @param blogManage 博客
+     * @param blogManage 博客管理
      * @return 结果
      */
     @Override
@@ -61,9 +62,9 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     }
 
     /**
-     * 修改博客
+     * 修改博客管理
      *
-     * @param blogManage 博客
+     * @param blogManage 博客管理
      * @return 结果
      */
     @Override
@@ -74,9 +75,9 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     }
 
     /**
-     * 批量删除博客
+     * 批量删除博客管理
      *
-     * @param uids 需要删除的博客主键
+     * @param uids 需要删除的博客管理主键
      * @return 结果
      */
     @Override
@@ -86,9 +87,9 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     }
 
     /**
-     * 删除博客信息
+     * 删除博客管理信息
      *
-     * @param uid 博客主键
+     * @param uid 博客管理主键
      * @return 结果
      */
     @Override
