@@ -62,4 +62,6 @@ public interface BlogSortMapper extends BaseMapper<BlogSort>
      * @return 结果
      */
     public int deleteBlogSortByUids(String[] uids);
+
+    String selectBlogSortUidByName(List blogSortName);
 }

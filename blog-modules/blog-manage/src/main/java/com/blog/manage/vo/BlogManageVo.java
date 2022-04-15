@@ -1,11 +1,9 @@
-package com.blog.manage.domain;
+package com.blog.manage.vo;
 
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
-import java.util.List;
 
 /**
  * 博客管理对象 back_blog vo层
@@ -13,7 +11,7 @@ import java.util.List;
  * @author ytw杨
  * @date 2022-04-11
  */
-public class BlogManage extends BaseEntity
+public class BlogManageVo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -34,13 +32,9 @@ public class BlogManage extends BaseEntity
     @Excel(name = "博客内容")
     private String content;
 
-    /** 标签uid */
-    @Excel(name = "标签uid")
-    private String tagUid;
-
     /** 标签名称 */
     @Excel(name = "标签名称")
-    private List blogTagName;
+    private String blogTagName;
 
     /** 博客点击数 */
     @Excel(name = "博客点击数")
@@ -50,12 +44,12 @@ public class BlogManage extends BaseEntity
     @Excel(name = "博客收藏数")
     private Long collectCount;
 
-    /** 标题图片uid */
-    @Excel(name = "标题图片uid")
-    private String imgUid;
+    /** 标题图片 */
+    @Excel(name = "标题图片")
+    private String blogImg;
 
-    /** 图片imgUrl */
-    private String imgUrl;
+    /** 图片url */
+    private String url;
     /** 状态 */
     @Excel(name = "状态")
     private Integer status;
@@ -64,14 +58,9 @@ public class BlogManage extends BaseEntity
     @Excel(name = "作者")
     private String author;
 
-
     /** 博客分类UID */
-    @Excel(name = "博客分类UID")
-    private String blogSortUid;
-
-    /** 博客分类 */
     @Excel(name = "博客分类")
-    private List blogSortName;
+    private String blogSortName;
 
     /** 推荐等级(0:正常) */
     @Excel(name = "推荐等级(0:正常)")
@@ -125,19 +114,11 @@ public class BlogManage extends BaseEntity
         this.content = content;
     }
 
-    public String getTagUid() {
-        return tagUid;
-    }
-
-    public void setTagUid(String tagUid) {
-        this.tagUid = tagUid;
-    }
-
-    public List getBlogTagName() {
+    public String getBlogTagName() {
         return blogTagName;
     }
 
-    public void setBlogTagName(List blogTagName) {
+    public void setBlogTagName(String blogTagName) {
         this.blogTagName = blogTagName;
     }
 
@@ -157,20 +138,20 @@ public class BlogManage extends BaseEntity
         this.collectCount = collectCount;
     }
 
-    public String getImgUid() {
-        return imgUid;
+    public String getBlogImg() {
+        return blogImg;
     }
 
-    public void setImgUid(String imgUid) {
-        this.imgUid = imgUid;
+    public void setBlogImg(String blogImg) {
+        this.blogImg = blogImg;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Integer getStatus() {
@@ -189,19 +170,11 @@ public class BlogManage extends BaseEntity
         this.author = author;
     }
 
-    public String getBlogSortUid() {
-        return blogSortUid;
-    }
-
-    public void setBlogSortUid(String blogSortUid) {
-        this.blogSortUid = blogSortUid;
-    }
-
-    public List getBlogSortName() {
+    public String getBlogSortName() {
         return blogSortName;
     }
 
-    public void setBlogSortName(List blogSortName) {
+    public void setBlogSortName(String blogSortName) {
         this.blogSortName = blogSortName;
     }
 
@@ -238,16 +211,14 @@ public class BlogManage extends BaseEntity
                 .append("summary", getSummary())
                 .append("content", getContent())
                 .append("blogTagName", getBlogTagName())
-                .append("tagUid", getTagUid())
                 .append("clickCount", getClickCount())
                 .append("collectCount", getCollectCount())
-                .append("imgUrl", getImgUrl())
-                .append("imgUid", getImgUid())
+                .append("blogImg", getBlogImg())
+                .append("url", getUrl())
                 .append("status", getStatus())
                 .append("createTime", getCreateTime())
                 .append("updateTime", getUpdateTime())
                 .append("author", getAuthor())
-                .append("blogSortUid", getBlogSortUid())
                 .append("blogSortName", getBlogSortName())
                 .append("level", getLevel())
                 .append("sort", getSort())

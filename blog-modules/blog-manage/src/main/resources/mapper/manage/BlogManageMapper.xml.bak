@@ -14,12 +14,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="clickCount"    column="click_count"    />
         <result property="collectCount"    column="collect_count"    />
         <result property="imgUid"    column="img_uid"    />
-        <result property="imgUrl"    column="img_url"    />
         <result property="status"    column="status"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
-        <result property="blogSortUid"    column="blog_sort_uid"    />
         <result property="author"    column="author"    />
+        <result property="blogSortUid"    column="blog_sort_uid"    />
         <result property="level"    column="level"    />
         <result property="sort"    column="sort"    />
         <result property="openComment"    column="open_comment"    />
@@ -30,26 +29,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <sql id="selectBlogManageVo">
-        select row_number()over() AS id,a.uid, a.blogTitle, a.summary, a.content, a.tag_uid , a.click_count, a.collect_count, b.pic_url img_url, a.status, a.create_time, a.update_time, a.author, a.blog_sort_uid , a.level, a.sort, a.open_comment from back_blog a
+        select row_number()over() AS id,a.uid, a.blogTitle, a.summary, a.content, c.content blogTagName, a.click_count, a.collect_count, a.img_uid, a.status, a.create_time, a.update_time, a.author, b.sort_name blogSortName, a.level, a.sort, a.open_comment from back_blog a, back_blog_sort b, back_tag c
     </sql>
 
     <select id="selectBlogManageVoList" parameterType="BlogManage" resultMap="BlogManageResult">
         <include refid="selectBlogManageVo"/>
-        LEFT JOIN back_picture b  ON a.img_uid=b.uid
         <where>
-            <if test="blogTitle != null  and blogTitle != ''"> and a.blogTitle like concat('%', #{blogTitle}, '%')</if>
-            <if test="summary != null  and summary != ''"> and a.summary like concat('%', #{summary}, '%')</if>
-            <if test="content != null  and content != ''"> and a.content like concat('%', #{content}, '%')</if>
-            <if test="tagUid != null  and tagUid != ''"> and a.tag_uid = #{tagUid}</if>
-            <if test="clickCount != null "> and a.click_count = #{clickCount}</if>
-            <if test="collectCount != null "> and a.collect_count = #{collectCount}</if>
-            <if test="imgUid != null  and imgUid != ''"> and a.img_uid = #{imgUid}</if>
-            <if test="status != null "> and a.status = #{status}</if>
-            <if test="author != null  and author != ''"> and a.author like concat('%', #{author}, '%')</if>
-            <if test="blogSortUid != null  and blogSortUid != ''"> and a.blogSortUid = #{blogSortUid}</if>
-            <if test="level != null "> and a.level = #{level}</if>
-            <if test="sort != null "> and a.sort = #{sort}</if>
-            <if test="openComment != null "> and a.open_comment = #{openComment}</if>
+            a.tag_uid =c.uid and  a.blog_sort_uid =b.uid
+            <if test="blogTitle != null  and blogTitle != ''"> and blogTitle like concat('%', #{blogTitle}, '%')</if>
+            <if test="summary != null  and summary != ''"> and summary like concat('%', #{summary}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="tagUid != null  and tagUid != ''"> and tag_uid = #{tagUid}</if>
+            <if test="clickCount != null "> and click_count = #{clickCount}</if>
+            <if test="collectCount != null "> and collect_count = #{collectCount}</if>
+            <if test="imgUid != null  and imgUid != ''"> and img_uid = #{imgUid}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="author != null  and author != ''"> and author like concat('%', #{author}, '%')</if>
+            <if test="blogSortUid != null  and blogSortUid != ''"> and blog_sort_uid = #{blogSortUid}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="openComment != null "> and open_comment = #{openComment}</if>
         </where>
     </select>
 
@@ -65,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="imgUid != null  and imgUid != ''"> and img_uid = #{imgUid}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="author != null  and author != ''"> and author like concat('%', #{author}, '%')</if>
-            <if test="blogSortUid != null  and blogSortUid != ''"> and blogSortUid = #{blogSortUid}</if>
+            <if test="blogSortUid != null  and blogSortUid != ''"> and blog_sort_uid = #{blogSortUid}</if>
             <if test="level != null "> and level = #{level}</if>
             <if test="sort != null "> and sort = #{sort}</if>
             <if test="openComment != null "> and open_comment = #{openComment}</if>
@@ -92,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="author != null">author,</if>
-            <if test="blogSortUid != null">blogSortUid,</if>
+            <if test="blogSortUid != null">blog_sort_uid,</if>
             <if test="level != null">level,</if>
             <if test="sort != null">sort,</if>
             <if test="openComment != null">open_comment,</if>
@@ -131,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="author != null">author = #{author},</if>
-            <if test="blogSortUid != null">blogSortUid = #{blogSortUid},</if>
+            <if test="blogSortUid != null">blog_sort_uid = #{blogSortUid},</if>
             <if test="level != null">level = #{level},</if>
             <if test="sort != null">sort = #{sort},</if>
             <if test="openComment != null">open_comment = #{openComment},</if>

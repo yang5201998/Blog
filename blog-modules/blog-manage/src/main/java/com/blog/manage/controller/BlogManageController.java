@@ -1,9 +1,18 @@
 package com.blog.manage.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.blog.manage.domain.BlogSort;
+import com.blog.manage.domain.BlogTag;
 import com.blog.manage.service.BlogManageService;
+import com.blog.manage.service.BlogSortService;
+import com.blog.manage.service.BlogTagService;
+import com.blog.manage.vo.BlogManageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +43,10 @@ public class BlogManageController extends BaseController
 {
     @Autowired
     private BlogManageService blogManageService;
-
+    @Autowired
+    private BlogSortService blogSortService;
+    @Autowired
+    private BlogTagService blogTagService;
     /**
      * 查询博客管理列表
      */
@@ -46,7 +58,31 @@ public class BlogManageController extends BaseController
         List<BlogManage> list = blogManageService.selectBlogManageList(blogManage);
         return getDataTable(list);
     }
-
+    /**
+     * 获取博客分类和标签列表
+     */
+    @RequiresPermissions("manage:blogManage:sortAndTag")
+    @GetMapping("/sortAndTag")
+    public AjaxResult listSortAndTag()
+    {
+        startPage();
+        Map map = new HashMap();
+        List list1=new ArrayList();
+        List list2=new ArrayList();
+        List<BlogSort> blogSorts = blogSortService.selectBlogSortList(new BlogSort());
+        for (BlogSort blogSort : blogSorts) {
+            String blogSortName = blogSort.getBlogSortName();
+            list1.add(blogSortName);
+        }
+        List<BlogTag> blogTags = blogTagService.selectBlogTagList(new BlogTag());
+        for (BlogTag blogTag : blogTags) {
+            String content = blogTag.getContent();
+            list2.add(content);
+        }
+        map.put("blogSortNames",list1);
+        map.put("blogTagNames",list2);
+        return AjaxResult.success(map);
+    }
     /**
      * 导出博客管理列表
      */

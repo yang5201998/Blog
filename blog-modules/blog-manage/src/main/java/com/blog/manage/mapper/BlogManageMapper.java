@@ -29,6 +29,13 @@ public interface BlogManageMapper extends BaseMapper<BlogManage>
      * @return 博客管理集合
      */
     public List<BlogManage> selectBlogManageList(BlogManage blogManage);
+    /**
+     * 查询博客管理列表Vo
+     *
+     * @param blogManage 博客管理
+     * @return 博客管理集合
+     */
+    public List<BlogManage> selectBlogManageVoList(BlogManage blogManage);
 
     /**
      * 新增博客管理

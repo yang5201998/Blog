@@ -10,22 +10,22 @@
         />
       </el-form-item>
       <el-form-item label="分类名称" prop="blogSortName">
-      <el-select v-model="formInline.blogSortName" multiple collapse-tag placeholder="请选择分类名称">
+      <el-select v-model="queryParams.blogSortName" multiple collapse-tag placeholder="请选择分类名称">
        <el-option
           v-for="item in blogSortNames"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item"
+          :label="item"
+          :value="item">
         </el-option>
       </el-select>
       </el-form-item>
       <el-form-item label="标签名称" prop="blogTagName">
-      <el-select v-model="formInline.blogTagName" multiple collapse-tag placeholder="请选择标签名称">
+      <el-select v-model="queryParams.blogTagName" multiple collapse-tag placeholder="请选择标签名称">
        <el-option
           v-for="item in blogTagNames"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item"
+          :label="item"
+          :value="item">
         </el-option>
       </el-select>
       </el-form-item>
@@ -44,7 +44,7 @@
           />
         </el-select>
       </el-form-item>
-        <el-form-item label="发布状态" prop="status">
+        <el-form-item label="发布状态"  prop="status">
         <el-select
           v-model="queryParams.status"
           placeholder="发布状态"
@@ -52,12 +52,23 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in dict.type.blog_status"
+            v-for="dict in dict.type.sys_normal_disable"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -102,24 +113,112 @@
     </el-row>
 
     <el-table v-loading="loading" :data="blogManageList" @selection-change="handleSelectionChange">
+       <el-table-column type="expand">
+      <template slot-scope="scope">
+        <el-form label-position="left" inline class="demo-table-expand">
+          <el-form-item label="博客标题">
+            <span>{{ scope.row.blogTitle }}</span>
+          </el-form-item>
+          <el-form-item label="博客分类"  >
+            <span  v-for="item in scope.row.blogSortName">{{ item.blogSortName }}</span>
+          </el-form-item>
+          <el-form-item label="博客简介">
+            <span>{{ scope.row.summary }}</span>
+          </el-form-item>
+          <el-form-item label="博客标签">
+            <span v-for="item in scope.row.blogTagName" >{{ item.content }} </span>
+          </el-form-item>
+          <el-form-item label="博客等级">
+            <span>{{ scope.row.level }}</span>
+          </el-form-item>
+          <el-form-item label="创建时间">
+            <span>{{ scope.row.createTime }}</span>
+          </el-form-item>
+          <el-form-item label="修改时间">
+            <span>{{ scope.row.updateTime }}</span>
+          </el-form-item>
+        </el-form>
+      </template>
+    </el-table-column>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="博客标题" align="center" prop="blogTitle" />
-      <el-table-column label="博客简介" align="center" prop="summary" />
-      <el-table-column label="博客内容" align="center" prop="content" />
-      <el-table-column label="标签uid" align="center" prop="tagUid" />
-      <el-table-column label="博客点击数" align="center" prop="clickCount" />
-      <el-table-column label="博客收藏数" align="center" prop="collectCount" />
-      <el-table-column label="标题图片uid" align="center" prop="fileUid" />
-      <el-table-column label="状态" align="center" prop="status" />
-      <el-table-column label="管理员uid" align="center" prop="adminUid" />
-      <el-table-column label="作者" align="center" prop="author" />
-      <el-table-column label="博客分类UID" align="center" prop="blogSortUid" />
-      <el-table-column label="推荐等级(0:正常)" align="center" prop="level" />
-      <el-table-column label="是否发布：0：否，1：是" align="center" prop="isPublish" />
-      <el-table-column label="排序字段" align="center" prop="sort" />
-      <el-table-column label="是否开启评论(0:否 1:是)" align="center" prop="openComment" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="序号" align="center" width="55" prop="id" />
+      <el-table-column label="标题图片" align="center" width="80" prop="imgUrl" >
+     <template slot-scope="scope">
+      <el-image
+      style="width: 80px; height: 80px"
+      :src="scope.row.imgUrl"
+      :fit=fit></el-image>
+     </template>
+      </el-table-column>
+      <el-table-column label="标题" :show-overflow-tooltip="true" align="center" width="150" prop="blogTitle" >
+        <template slot-scope="scope">
+          <span @click="onClick(scope.row)" style="cursor:pointer;">{{ scope.row.blogTitle }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="分类" align="center" width="100" prop="blogSort" >
+       <template slot-scope="scope">
+        <el-tag
+              style="margin-left: 3px"
+              type="success"
+              :key="item.blogSortName"
+              v-for="item in scope.row.blogSortName"
+            >{{item.blogSortName}}</el-tag>
+      </template>
+      </el-table-column>
+      <el-table-column label="标签" align="center" width="100" prop="blogTag" >
+        <template slot-scope="scope">
+        <el-tag
+              style="margin-left: 3px"
+              type="danger"
+              :key="item.content"
+              v-for="item in scope.row.blogTagName"
+            >{{item.content}}</el-tag>
+      </template>
+      </el-table-column>
+      <el-table-column label="点击数" sortable align="center" width="100" prop="clickCount" />
+      <el-table-column label="收藏数" sortable align="center"  width="100" prop="collectCount" />
+      <el-table-column label="发布状态" align="center" prop="status" >
+         <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.status"
+            :active-value="1"
+            :inactive-value="0"
+            @change="handleStatusChange(scope.row)"
+          ></el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="推荐等级" align="center" prop="level" >
+       <template slot-scope="scope">
+        <el-tag
+              style="margin-left: 3px"
+              type=" "
+              :key="scope.row.level"
+              v-for="dict in dict.type.blog_level"
+              v-if="dict.value==scope.row.level"
+            >{{dict.label}}</el-tag>
+      </template>
+      </el-table-column>
+      <el-table-column label="开启评论" align="center" prop="openComment">
+         <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.openComment"
+            :active-value="0"
+            :inactive-value="1"
+            @change="handleCommentChange(scope.row)"
+          ></el-switch>
+        </template>
+      </el-table-column>
+       <el-table-column label="创建时间" sortable align="center"  prop="createTime" width="160">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime) }}</span>
+        </template>
+      </el-table-column>
+            <el-table-column label="修改时间" sortable align="center" prop="updateTime" width="160">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.updateTime) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  fixed='right' label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -155,10 +254,7 @@
         </el-form-item>
         <el-form-item label="博客简介" prop="summary">
           <el-input v-model="form.summary" placeholder="请输入博客简介" />
-        </el-form-item>
-        <el-form-item label="博客内容">
-          <editor v-model="form.content" :min-height="192"/>
-        </el-form-item>
+        </el-form-item> 
         <el-form-item label="博客点击数" prop="clickCount">
           <el-input v-model="form.clickCount" placeholder="请输入博客点击数" />
         </el-form-item>
@@ -168,17 +264,11 @@
         <el-form-item label="标题图片uid" prop="fileUid">
           <el-input v-model="form.fileUid" placeholder="请输入标题图片uid" />
         </el-form-item>
-        <el-form-item label="管理员uid" prop="adminUid">
-          <el-input v-model="form.adminUid" placeholder="请输入管理员uid" />
-        </el-form-item>
         <el-form-item label="作者" prop="author">
           <el-input v-model="form.author" placeholder="请输入作者" />
         </el-form-item>
         <el-form-item label="推荐等级(0:正常)" prop="level">
           <el-input v-model="form.level" placeholder="请输入推荐等级(0:正常)" />
-        </el-form-item>
-        <el-form-item label="是否发布：0：否，1：是" prop="isPublish">
-          <el-input v-model="form.isPublish" placeholder="请输入是否发布：0：否，1：是" />
         </el-form-item>
         <el-form-item label="排序字段" prop="sort">
           <el-input v-model="form.sort" placeholder="请输入排序字段" />
@@ -196,16 +286,16 @@
 </template>
 
 <script>
-import { listBlogManage, getBlogManage, delBlogManage, addBlogManage, updateBlogManage } from "@/api/blog/blogManage";
+import { listBlogManage, getBlogManage, delBlogManage, addBlogManage, updateBlogManage,listSortAndTag } from "@/api/blog/blogManage";
 
 export default {
   name: "BlogManage",
-  dicts: ['blog_level','blog_status'],
+  dicts: ['blog_level','sys_normal_disable'],
   data() {
     return {
       blogSortNames:[],
-
       blogTagNames:[],
+      fit:'fill',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -220,6 +310,8 @@ export default {
       total: 0,
       // 博客管理表格数据
       blogManageList: [],
+      // 日期范围
+      dateRange: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -228,19 +320,20 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        title: null,
+        blogTitle: null,
         summary: null,
         content: null,
-        tagUid: null,
+        tagUid:null,
+        blogTagName: [],
         clickCount: null,
         collectCount: null,
-        fileUid: null,
+        imgUid: null,
+        imgUrl:null,
         status: null,
-        adminUid: null,
         author: null,
         blogSortUid: null,
+        blogSortName: [],
         level: null,
-        isPublish: null,
         sort: null,
         openComment: null
       },
@@ -249,33 +342,34 @@ export default {
       // 表单校验
       rules: {
         status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
+          { required: true, message: "发布状态不能为空", trigger: "blur" }
         ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "更新时间不能为空", trigger: "blur" }
-        ],
-        sort: [
-          { required: true, message: "排序字段不能为空", trigger: "blur" }
-        ],
-        openComment: [
-          { required: true, message: "是否开启评论(0:否 1:是)不能为空", trigger: "blur" }
-        ]
       }
     };
   },
   created() {
     this.getList();
+    this.getSortAndTagList();
   },
   methods: {
+  
     /** 查询博客管理列表 */
     getList() {
       this.loading = true;
       listBlogManage(this.queryParams).then(response => {
+        console.log("response",response)
         this.blogManageList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+    },
+        /** 获取博客分类和标签列表 */
+    getSortAndTagList() {
+      this.loading = true;
+      listSortAndTag().then(response => {
+        console.log("response.listSortAndTag",response)
+        this.blogSortNames=response.data.blogSortNames;
+        this.blogTagNames=response.data.blogTagNames;
         this.loading = false;
       });
     },
@@ -288,21 +382,20 @@ export default {
     reset() {
       this.form = {
         uid: null,
-        title: null,
+        blogTitle: null,
         summary: null,
         content: null,
-        tagUid: null,
+        blogTagName: [],
         clickCount: null,
         collectCount: null,
-        fileUid: null,
+        imgUrl:null,
         status: 0,
         createTime: null,
         updateTime: null,
         adminUid: null,
         author: null,
-        blogSortUid: null,
+        blogSortName: [],
         level: null,
-        isPublish: null,
         sort: null,
         openComment: null
       };
@@ -360,6 +453,28 @@ export default {
         }
       });
     },
+            // 分类状态修改
+    handleStatusChange(row) {
+      let text = row.status === "0" ? "停用" : "启用";
+      this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
+        return changeBlogSortStatus(row.uid, row.status);
+      }).then(() => {
+        this.$modal.msgSuccess(text + "成功");
+      }).catch(function() {
+        row.status = row.status === "0" ? "0" : "1";
+      });
+    },
+            // 分类状态修改
+    handleCommentChange(row) {
+      let text = row.status === "0" ? "停用" : "启用";
+      this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
+        return changeBlogSortStatus(row.uid, row.status);
+      }).then(() => {
+        this.$modal.msgSuccess(text + "成功");
+      }).catch(function() {
+        row.status = row.status === "0" ? "0" : "1";
+      });
+    },
     /** 删除按钮操作 */
     handleDelete(row) {
       const uids = row.uid || this.ids;
@@ -379,3 +494,18 @@ export default {
   }
 };
 </script>
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+
+</style>
