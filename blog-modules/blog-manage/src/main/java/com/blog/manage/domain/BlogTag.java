@@ -1,7 +1,9 @@
 package com.blog.manage.domain;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -11,6 +13,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author ytw杨
  * @date 2022-04-14
  */
+@Data
+@TableName("back_tag")
 public class BlogTag extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

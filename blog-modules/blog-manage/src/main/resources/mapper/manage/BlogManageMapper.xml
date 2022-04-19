@@ -40,13 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="blogTitle != null  and blogTitle != ''"> and a.blogTitle like concat('%', #{blogTitle}, '%')</if>
             <if test="summary != null  and summary != ''"> and a.summary like concat('%', #{summary}, '%')</if>
             <if test="content != null  and content != ''"> and a.content like concat('%', #{content}, '%')</if>
-            <if test="tagUid != null  and tagUid != ''"> and a.tag_uid = #{tagUid}</if>
+            <if test="tagUid != null  and tagUid != ''"> and a.tag_uid like concat('%', #{tagUid}, '%')</if>
             <if test="clickCount != null "> and a.click_count = #{clickCount}</if>
             <if test="collectCount != null "> and a.collect_count = #{collectCount}</if>
             <if test="imgUid != null  and imgUid != ''"> and a.img_uid = #{imgUid}</if>
             <if test="status != null "> and a.status = #{status}</if>
             <if test="author != null  and author != ''"> and a.author like concat('%', #{author}, '%')</if>
-            <if test="blogSortUid != null  and blogSortUid != ''"> and a.blogSortUid = #{blogSortUid}</if>
+            <if test="blogSortUid != null  and blogSortUid != ''"> and a.blog_sort_uid like concat('%', #{blogSortUid}, '%')</if>
             <if test="level != null "> and a.level = #{level}</if>
             <if test="sort != null "> and a.sort = #{sort}</if>
             <if test="openComment != null "> and a.open_comment = #{openComment}</if>
@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="imgUid != null  and imgUid != ''"> and img_uid = #{imgUid}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="author != null  and author != ''"> and author like concat('%', #{author}, '%')</if>
-            <if test="blogSortUid != null  and blogSortUid != ''"> and blogSortUid = #{blogSortUid}</if>
+            <if test="blogSortUid != null  and blogSortUid != ''"> and blog_sort_uid = #{blogSortUid}</if>
             <if test="level != null "> and level = #{level}</if>
             <if test="sort != null "> and sort = #{sort}</if>
             <if test="openComment != null "> and open_comment = #{openComment}</if>
@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="author != null">author,</if>
-            <if test="blogSortUid != null">blogSortUid,</if>
+            <if test="blogSortUid != null">blog_sort_uid,</if>
             <if test="level != null">level,</if>
             <if test="sort != null">sort,</if>
             <if test="openComment != null">open_comment,</if>
@@ -131,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="author != null">author = #{author},</if>
-            <if test="blogSortUid != null">blogSortUid = #{blogSortUid},</if>
+            <if test="blogSortUid != null">blog_sort_uid = #{blogSortUid},</if>
             <if test="level != null">level = #{level},</if>
             <if test="sort != null">sort = #{sort},</if>
             <if test="openComment != null">open_comment = #{openComment},</if>

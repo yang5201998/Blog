@@ -60,4 +60,5 @@ public interface BlogTagService extends IService<BlogTag>
      * @return 结果
      */
     public int deleteBlogTagByUid(String uid);
+
 }

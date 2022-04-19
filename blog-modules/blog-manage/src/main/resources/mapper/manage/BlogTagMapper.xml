@@ -32,7 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBlogTagVo"/>
         where uid = #{uid}
     </select>
-        
+    <select id="selectBlogTagUidByUidName" resultType="java.lang.String">
+        select uid
+        from back_tag
+        where content=#{content}
+    </select>
+
     <insert id="insertBlogTag" parameterType="BlogTag">
         insert into back_tag
         <trim prefix="(" suffix=")" suffixOverrides=",">

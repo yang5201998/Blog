@@ -61,4 +61,6 @@ public interface BlogTagMapper extends BaseMapper<BlogTag>
      * @return 结果
      */
     public int deleteBlogTagByUids(String[] uids);
+
+    String selectBlogTagUidByUidName(String tagName);
 }

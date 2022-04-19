@@ -1,7 +1,11 @@
 package com.blog.manage.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.core.utils.DateUtils;
+import com.blog.common.core.utils.StringUtils;
 import com.blog.manage.domain.BlogManage;
 import com.blog.manage.domain.BlogSort;
 import com.blog.manage.domain.BlogTag;
@@ -9,12 +13,16 @@ import com.blog.manage.mapper.BlogManageMapper;
 import com.blog.manage.mapper.BlogSortMapper;
 import com.blog.manage.mapper.BlogTagMapper;
 import com.blog.manage.service.BlogManageService;
+import com.blog.manage.service.BlogSortService;
+import com.blog.manage.service.BlogTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.function.Predicate;
 
 
 /**
@@ -32,6 +40,10 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     @Autowired
     private BlogSortMapper blogSortMapper;
 
+    @Autowired
+    private BlogSortService blogSortService;
+    @Autowired
+    private BlogTagService blogTagService;
     @Autowired
     private BlogTagMapper blogTagMapper;
     /**
@@ -55,28 +67,52 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
     @Override
     public List<BlogManage> selectBlogManageList(BlogManage blogManage)
     {
+        //通过博客分类名称查询结果
+        if (StringUtils.isNotEmpty(blogManage.getBlogSortName())){
+            StringBuilder stringBuilderSort=new StringBuilder();
+            List blogSortName = blogManage.getBlogSortName();
+            blogSortName.forEach(item->{
+                String sortUid = blogSortMapper.selectBlogSortUidByName(item.toString());
+                stringBuilderSort.append(sortUid);
+                stringBuilderSort.append(",");
+            });
+            blogManage.setBlogSortUid(stringBuilderSort.deleteCharAt(stringBuilderSort.lastIndexOf(",")).toString());
+        }
+        //通过博客标签名称查询结果
+        if (StringUtils.isNotEmpty(blogManage.getBlogTagName())){
+            StringBuilder stringBuilderTag=new StringBuilder();
+            List blogTagName = blogManage.getBlogTagName();
+                blogTagName.forEach(item->{
+                String tagUid =blogTagMapper.selectBlogTagUidByUidName(item.toString());
+                stringBuilderTag.append(tagUid);
+                stringBuilderTag.append(",");
+            });
+            blogManage.setTagUid(stringBuilderTag.deleteCharAt(stringBuilderTag.lastIndexOf(",")).toString());
+        }
         List<BlogManage> blogManages = blogManageMapper.selectBlogManageVoList(blogManage);
-        for (BlogManage blogManager : blogManages){
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            //获取博客分类名称
-            String blogSortUid = blogManager.getBlogSortUid();
-            String[] split1 = blogSortUid.split(",");
-            for (int i = 0; i < split1.length; i++) {
-                BlogSort blogSort = blogSortMapper.selectBlogSortByUid(split1[i]);
-                list1.add(blogSort);
-            }
-            //获取博客标签名称
-            String tagUid = blogManager.getTagUid();
-            String[] split2 = tagUid.split(",");
-            for (int i = 0; i < split2.length; i++) {
-                BlogTag blogTag = blogTagMapper.selectBlogTagByUid(split2[i]);
-                list2.add(blogTag);
-            }
-            //获取博客推荐等级
-
-            blogManager.setBlogSortName(list1);
-            blogManager.setBlogTagName(list2);
+        if (StringUtils.isNotEmpty(blogManages)) {
+            blogManages.forEach(item -> {
+                List<BlogSort> blogSortNames = new ArrayList();
+                List<BlogTag> blogTagNames = new ArrayList();
+                //获取博客分类名称
+                if (StringUtils.isNotEmpty(item.getBlogSortUid())) {
+                    String[] splitSortUid = item.getBlogSortUid().split(",");
+                    for (int i = 0; i < splitSortUid.length; i++) {
+                        BlogSort blogSort = blogSortMapper.selectBlogSortByUid(splitSortUid[i]);
+                        blogSortNames.add(blogSort);
+                    }
+                }
+                //获取博客标签名称
+                if (StringUtils.isNotEmpty(item.getTagUid())) {
+                    String[] splitTagUid = item.getTagUid().split(",");
+                    for (int i = 0; i < splitTagUid.length; i++) {
+                        BlogTag blogTag = blogTagMapper.selectBlogTagByUid(splitTagUid[i]);
+                        blogTagNames.add(blogTag);
+                    }
+                }
+                item.setBlogSortName(blogSortNames);
+                item.setBlogTagName(blogTagNames);
+            });
         }
         return blogManages;
     }

@@ -40,6 +40,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBlogSortVo"/>
         where uid = #{uid}
     </select>
+    <select id="selectBlogSortUidByName" parameterType="String" resultType="java.lang.String">
+        select uid
+        from back_blog_sort
+        where sort_name=#{blogSortName}
+    </select>
 
     <insert id="insertBlogSort" parameterType="BlogSort">
         insert into back_blog_sort

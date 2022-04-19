@@ -66,21 +66,15 @@ public class BlogManageController extends BaseController
     public AjaxResult listSortAndTag()
     {
         startPage();
-        Map map = new HashMap();
-        List list1=new ArrayList();
-        List list2=new ArrayList();
+        HashMap<String,List> map = new HashMap();
+        List blogSortlist=new ArrayList();
+        List blogTaglist=new ArrayList();
         List<BlogSort> blogSorts = blogSortService.selectBlogSortList(new BlogSort());
-        for (BlogSort blogSort : blogSorts) {
-            String blogSortName = blogSort.getBlogSortName();
-            list1.add(blogSortName);
-        }
+        blogSorts.forEach(item->blogSortlist.add(item.getBlogSortName()));
         List<BlogTag> blogTags = blogTagService.selectBlogTagList(new BlogTag());
-        for (BlogTag blogTag : blogTags) {
-            String content = blogTag.getContent();
-            list2.add(content);
-        }
-        map.put("blogSortNames",list1);
-        map.put("blogTagNames",list2);
+        blogTags.forEach(item->blogTaglist.add(item.getContent()));
+        map.put("blogSortNames",blogSortlist);
+        map.put("blogTagNames",blogTaglist);
         return AjaxResult.success(map);
     }
     /**

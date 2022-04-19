@@ -1,10 +1,14 @@
 package com.blog.manage.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.EqualsExclude;
+
 /**
  * 博客分类对象 back_blog_sort
  *
@@ -12,12 +16,15 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @date 2022-04-06
  */
 @Data
+@TableName("back_blog_sort")
 public class BlogSort extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     //序号
+    @TableField(exist = false)
     private Long id;
+
     /** 唯一uid */
     private String uid;
 
