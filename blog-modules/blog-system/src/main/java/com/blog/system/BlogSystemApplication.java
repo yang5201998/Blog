@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.blog.common.security.annotation.EnableCustomConfig;
 import com.blog.common.security.annotation.EnableRyFeignClients;
 import com.blog.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 系统模块
@@ -15,6 +17,8 @@ import com.blog.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomConfig
 @EnableCustomSwagger2
 @EnableRyFeignClients
+@EnableFeignClients
+@EnableDiscoveryClient
 @SpringBootApplication
 @MapperScan("com.blog.**.mapper")
 public class BlogSystemApplication

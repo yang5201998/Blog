@@ -1,7 +1,10 @@
 package com.blog.manage.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
+import com.blog.common.core.web.domain.BlogEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -13,17 +16,20 @@ import java.util.List;
  * @author ytw杨
  * @date 2022-04-11
  */
-public class BlogManage extends BaseEntity
+@TableName("back_blog")
+public class BlogManage extends BlogEntity
 {
     private static final long serialVersionUID = 1L;
 
     //序号
+    @TableField(exist = false)
     private Long id;
     /** 唯一uid */
     private String uid;
 
     /** 博客标题 */
     @Excel(name = "博客标题")
+    @TableField("blogTitle")
     private String blogTitle;
 
     /** 博客简介 */
@@ -40,6 +46,7 @@ public class BlogManage extends BaseEntity
 
     /** 标签名称 */
     @Excel(name = "标签名称")
+    @TableField(exist = false)
     private List blogTagName;
 
     /** 博客点击数 */
@@ -55,6 +62,7 @@ public class BlogManage extends BaseEntity
     private String imgUid;
 
     /** 图片imgUrl */
+    @TableField(exist = false)
     private String imgUrl;
     /** 状态 */
     @Excel(name = "状态")
@@ -69,8 +77,10 @@ public class BlogManage extends BaseEntity
     @Excel(name = "博客分类UID")
     private String blogSortUid;
 
+
     /** 博客分类 */
     @Excel(name = "博客分类")
+    @TableField(exist = false)
     private List blogSortName;
 
     /** 推荐等级(0:正常) */
@@ -204,6 +214,7 @@ public class BlogManage extends BaseEntity
     public void setBlogSortName(List blogSortName) {
         this.blogSortName = blogSortName;
     }
+
 
     public Integer getLevel() {
         return level;

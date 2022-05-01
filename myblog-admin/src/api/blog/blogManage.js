@@ -35,7 +35,7 @@ export function addBlogManage(data) {
 // 修改博客管理
 export function updateBlogManage(data) {
   return request({
-    url: '/manage/blogManage',
+    url: '/manage/blogManage/edit',
     method: 'put',
     data: data
   })

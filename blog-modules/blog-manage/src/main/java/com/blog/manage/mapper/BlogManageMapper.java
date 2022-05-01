@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.manage.domain.BlogManage;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 博客管理Mapper接口
@@ -36,6 +37,7 @@ public interface BlogManageMapper extends BaseMapper<BlogManage>
      * @return 博客管理集合
      */
     public List<BlogManage> selectBlogManageVoList(BlogManage blogManage);
+
 
     /**
      * 新增博客管理

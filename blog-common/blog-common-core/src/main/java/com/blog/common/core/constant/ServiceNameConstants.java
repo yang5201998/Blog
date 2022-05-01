@@ -21,4 +21,9 @@ public class ServiceNameConstants
      * 文件服务的serviceid
      */
     public static final String FILE_SERVICE = "blog-file";
+
+    /**
+     * 后台管理的serviceid
+     */
+    public static final String MANAGE_SERVICE = "blog-manage";
 }

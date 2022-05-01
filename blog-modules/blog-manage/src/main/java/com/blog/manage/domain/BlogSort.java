@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
+import com.blog.common.core.web.domain.BlogEntity;
 import lombok.Data;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang3.builder.EqualsExclude;
+
+import java.io.Serializable;
 
 /**
  * 博客分类对象 back_blog_sort
@@ -17,7 +20,7 @@ import org.apache.commons.lang3.builder.EqualsExclude;
  */
 @Data
 @TableName("back_blog_sort")
-public class BlogSort extends BaseEntity
+public class BlogSort extends BlogEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -29,11 +32,13 @@ public class BlogSort extends BaseEntity
     private String uid;
 
     /** 分类内容 */
-    @Excel(name = "分类内容")
+    @Excel(name = "分类名称")
+    @TableField("sort_name")
     private String blogSortName;
 
     /** 分类简介 */
     @Excel(name = "分类简介")
+    @TableField("content")
     private String blogSortContent;
 
     /** 状态 */
@@ -42,11 +47,12 @@ public class BlogSort extends BaseEntity
 
     /** 分类排序 */
     @Excel(name = "分类排序")
+    @TableField("sort")
     private Long blogSorts;
 
     /** 文章引用数 */
     @Excel(name = "文章引用数")
-    private Long blogSortSum;
+    private Long sortUsed;
 
     public Long getId() {
         return id;
@@ -101,14 +107,14 @@ public class BlogSort extends BaseEntity
     {
         return blogSorts;
     }
-    public void setBlogSortSum(Long blogSortSum)
+    public void setBlogSortSum(Long sortUsed)
     {
-        this.blogSortSum = blogSortSum;
+        this.sortUsed = sortUsed;
     }
 
     public Long getBlogSortSum()
     {
-        return blogSortSum;
+        return sortUsed;
     }
 
     @Override
@@ -121,7 +127,7 @@ public class BlogSort extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("status", getStatus())
             .append("blogSorts", getBlogSorts())
-            .append("blogSortSum", getBlogSortSum())
+            .append("sortUsed", getBlogSortSum())
             .toString();
     }
 }

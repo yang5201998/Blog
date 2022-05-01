@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="博客标题" prop="blogTitle">
         <el-input
-          v-model="queryParams.title"
+          v-model="queryParams.blogTitle"
           placeholder="请输入博客标题"
           clearable
           @keyup.enter.native="handleQuery"
@@ -52,7 +52,7 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in dict.type.sys_normal_disable"
+            v-for="dict in dict.type.blog_status"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -120,23 +120,38 @@
             <span>{{ scope.row.blogTitle }}</span>
           </el-form-item>
           <el-form-item label="博客分类"  >
-            <span  v-for="item in scope.row.blogSortName">{{ item.blogSortName }}</span>
+            <span  v-for="item in scope.row.blogSortName">{{ item.blogSortName }} </span>
           </el-form-item>
           <el-form-item label="博客简介">
             <span>{{ scope.row.summary }}</span>
           </el-form-item>
+          <el-form-item label="博客作者">
+            <span>{{ scope.row.author }}</span>
+          </el-form-item>
           <el-form-item label="博客标签">
-            <span v-for="item in scope.row.blogTagName" >{{ item.content }} </span>
+            <span v-for="item in scope.row.blogTagName" >{{ item.tagName }} </span>
           </el-form-item>
           <el-form-item label="博客等级">
-            <span>{{ scope.row.level }}</span>
+            <span v-for="dict in dict.type.blog_level"
+              v-if="dict.value==scope.row.level">
+            {{dict.label}} </span>
           </el-form-item>
-          <el-form-item label="创建时间">
+          <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime) }}</span>
+          </template>
+        </el-table-column>
+          <!-- <el-form-item label="创建时间">
             <span>{{ scope.row.createTime }}</span>
-          </el-form-item>
-          <el-form-item label="修改时间">
+          </el-form-item> -->
+         <el-table-column label="修改时间" align="center" prop="updateTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.updateTime) }}</span>
+        </template>
+      </el-table-column>
+          <!-- <el-form-item label="修改时间">
             <span>{{ scope.row.updateTime }}</span>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </template>
     </el-table-column>
@@ -172,7 +187,7 @@
               type="danger"
               :key="item.content"
               v-for="item in scope.row.blogTagName"
-            >{{item.content}}</el-tag>
+            >{{item.tagName}}</el-tag>
       </template>
       </el-table-column>
       <el-table-column label="点击数" sortable align="center" width="100" prop="clickCount" />
@@ -181,8 +196,8 @@
          <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
-            :active-value="1"
-            :inactive-value="0"
+            :active-value="0"
+            :inactive-value="1"
             @change="handleStatusChange(scope.row)"
           ></el-switch>
         </template>
@@ -286,11 +301,11 @@
 </template>
 
 <script>
-import { listBlogManage, getBlogManage, delBlogManage, addBlogManage, updateBlogManage,listSortAndTag } from "@/api/blog/blogManage";
+import { listBlogManage, getBlogManage, delBlogManage, addBlogManage, updateBlogManage,listSortAndTag,changeBlogStatus,changeBlogComment } from "@/api/blog/blogManage";
 
 export default {
   name: "BlogManage",
-  dicts: ['blog_level','sys_normal_disable'],
+  dicts: ['blog_level','blog_status'],
   data() {
     return {
       blogSortNames:[],
@@ -356,7 +371,7 @@ export default {
     /** 查询博客管理列表 */
     getList() {
       this.loading = true;
-      listBlogManage(this.queryParams).then(response => {
+      listBlogManage(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         console.log("response",response)
         this.blogManageList = response.rows;
         this.total = response.total;
@@ -408,6 +423,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -453,26 +469,28 @@ export default {
         }
       });
     },
-            // 分类状态修改
+            // 发布状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "停用" : "启用";
-      this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
-        return changeBlogSortStatus(row.uid, row.status);
+      console.log("Statusrow",row)
+      let text = row.status === 0 ? "发布" : "下架";
+      this.$modal.confirm('确认要"' + text + '""' + row.blogTitle + '"博客吗？').then(function() {
+        return updateBlogManage(row);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function() {
-        row.status = row.status === "0" ? "0" : "1";
+        row.status = row.status === 0 ? 0 : 1;
       });
     },
-            // 分类状态修改
+            // 是否开启评论
     handleCommentChange(row) {
-      let text = row.status === "0" ? "停用" : "启用";
-      this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
-        return changeBlogSortStatus(row.uid, row.status);
+      console.log("Commentrow",row)
+      let text = row.openComment === 0 ? "启用" : "停用";
+      this.$modal.confirm('确认要"' + text + '""' + row.blogTitle + '"评论吗？').then(function() {
+        return updateBlogManage(row);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function() {
-        row.status = row.status === "0" ? "0" : "1";
+        row.openComment = row.openComment === 0 ? 0 : 1;
       });
     },
     /** 删除按钮操作 */

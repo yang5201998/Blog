@@ -16,18 +16,21 @@
     </description>
 
     <dependencies>
-<!--        &lt;!&ndash;   manage模块&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.blog</groupId>-->
-<!--            <artifactId>blog-modules-manage</artifactId>-->
-<!--            <version>3.4.0</version>-->
-<!--        </dependency>-->
 
+        <dependency>
+            <groupId>com.blog</groupId>
+            <artifactId>blog-modules-manage</artifactId>
+            <version>3.4.0</version>
+        </dependency>
         <!--   MybatisPlus模块-->
         <dependency>
             <groupId>com.blog</groupId>
             <artifactId>blog-common-MybatisPlus</artifactId>
             <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     	<!-- SpringCloud Alibaba Nacos -->
         <dependency>

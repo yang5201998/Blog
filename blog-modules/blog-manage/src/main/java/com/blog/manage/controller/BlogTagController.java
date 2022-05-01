@@ -2,6 +2,9 @@ package com.blog.manage.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.blog.common.core.domain.R;
+import com.blog.common.core.web.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +22,12 @@ import com.blog.manage.service.BlogTagService;
 import com.blog.common.core.web.controller.BaseController;
 import com.blog.common.core.web.domain.AjaxResult;
 import com.blog.common.core.utils.poi.ExcelUtil;
-import com.blog.common.core.web.page.TableDataInfo;
 
 /**
  * 博客标签Controller
  *
  * @author ytw杨
- * @date 2022-04-14
+ * @date 2022-04-24
  */
 @RestController
 @RequestMapping("/blogTag")
@@ -51,7 +53,7 @@ public class BlogTagController extends BaseController
      */
     @RequiresPermissions("manage:blogTag:export")
     @Log(title = "博客标签", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
+    @GetMapping("/export")
     public void export(HttpServletResponse response, BlogTag blogTag)
     {
         List<BlogTag> list = blogTagService.selectBlogTagList(blogTag);

@@ -66,5 +66,5 @@ public interface BlogSortMapper extends BaseMapper<BlogSort>
 
     String selectBlogSortUidByName(String sortName);
 
-    String selectBlogTagUidByUidName(String tagName);
+
 }

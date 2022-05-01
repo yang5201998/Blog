@@ -3,8 +3,6 @@ package com.blog.manage.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.blog.manage.domain.BlogSort;
@@ -12,7 +10,6 @@ import com.blog.manage.domain.BlogTag;
 import com.blog.manage.service.BlogManageService;
 import com.blog.manage.service.BlogSortService;
 import com.blog.manage.service.BlogTagService;
-import com.blog.manage.vo.BlogManageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +69,7 @@ public class BlogManageController extends BaseController
         List<BlogSort> blogSorts = blogSortService.selectBlogSortList(new BlogSort());
         blogSorts.forEach(item->blogSortlist.add(item.getBlogSortName()));
         List<BlogTag> blogTags = blogTagService.selectBlogTagList(new BlogTag());
-        blogTags.forEach(item->blogTaglist.add(item.getContent()));
+        blogTags.forEach(item->blogTaglist.add(item.getTagName()));
         map.put("blogSortNames",blogSortlist);
         map.put("blogTagNames",blogTaglist);
         return AjaxResult.success(map);
@@ -116,7 +113,7 @@ public class BlogManageController extends BaseController
      */
     @RequiresPermissions("manage:blogManage:edit")
     @Log(title = "博客管理", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/edit")
     public AjaxResult edit(@RequestBody BlogManage blogManage)
     {
         return toAjax(blogManageService.updateBlogManage(blogManage));

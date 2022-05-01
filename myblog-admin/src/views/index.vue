@@ -152,6 +152,7 @@ export default {
       blogCountByTag: [],
       blogCountByBlogSort: [],
       tagNameArray: [],
+      blogSortList:[],
       blogSortNameArray: [],
       lineChartData: {},
       notificationDialogVisible: this.$store.state.app.openNotificationDialogVisible
@@ -182,75 +183,38 @@ export default {
     });
 
     //通过标签获取博客数目
-    // getBlogCountByTag().then(response => {
-    //   if (response.code == this.$ECode.SUCCESS) {
-        this.blogCountByTag = [{"name":"学习笔记","value":10.0,"tagUid":"5626932d452c2ad863d9b3cb0b69d22d"},{"name":"Java","value":5.0,"tagUid":"7e0e93ea6cdb44ae92e58f48e6496ed7"},{"name":"JVM","value":3.0,"tagUid":"15721a34adba068763b5a2fb1991fc57"},{"name":"Spring Cloud","value":2.0,"tagUid":"e81bc2dca42c4031be7d66fef4a71e16"},{"name":"Linux","value":1.0,"tagUid":"1d1fd6d26c8e40a38637ef6126c45cd0"}];
+    getBlogCountByTag().then(response => {
+      if (response.code == 200) {
+        // this.blogCountByTag = [{"name":"学习笔记","value":10.0,"tagUid":"5626932d452c2ad863d9b3cb0b69d22d"},{"name":"Java","value":5.0,"tagUid":"7e0e93ea6cdb44ae92e58f48e6496ed7"},{"name":"JVM","value":3.0,"tagUid":"15721a34adba068763b5a2fb1991fc57"},{"name":"Spring Cloud","value":2.0,"tagUid":"e81bc2dca42c4031be7d66fef4a71e16"},{"name":"Linux","value":1.0,"tagUid":"1d1fd6d26c8e40a38637ef6126c45cd0"}];
+        let blogTagLists=response.data
+         for (var i = 0; i < 8; i++) {
+            this.blogCountByTag.push(blogTagLists[i])
+         }
         var tagList = this.blogCountByTag;
-        for (var a = 0; a < this.blogCountByTag.length; a++) {
+        for (var a = 0; a < 8; a++) {
           this.tagNameArray.push(tagList[a].name);
         }
         this.showPieChart = true;
-    //   }
-    // });
+      }
+    });
 
     //通过博客分类获取博客数目
-    // getBlogCountByBlogSort().then(response => {
-    //   if (response.code == this.$ECode.SUCCESS) {
-        this.blogCountByBlogSort = [{"blogSortUid":"a03d7290b1c04b6eaf46659661b47032","name":"后端开发","value":10.0},{"blogSortUid":"db0d64ea7df409de5d2d747927cfa1a5","name":"学习笔记","value":3.0},{"blogSortUid":"337806254f9c42999043de5c5ee09e77","name":"技术新闻","value":2.0}];
+    getBlogCountByBlogSort().then(response => {
+      if (response.code == 200) {
+        // this.blogCountByBlogSort = [{"blogSortUid":"a03d7290b1c04b6eaf46659661b47032","name":"后端开发","value":10.0},{"blogSortUid":"a03d7290b1c04b6eaf46659661b47032","name":"后端开发1","value":8.0},{"blogSortUid":"db0d64ea7df409de5d2d747927cfa1a5","name":"学习笔记","value":3.0},{"blogSortUid":"337806254f9c42999043de5c5ee09e77","name":"技术新闻","value":2.0}];
+        let blogSortLists=response.data
+         for (var i = 0; i < 8; i++) {
+            this.blogCountByBlogSort.push(blogSortLists[i])
+         }
         let blogSortList = this.blogCountByBlogSort;
-        for (var a = 0; a < this.blogCountByBlogSort.length; a++) {
+        for (var a = 0; a < 8; a++) {
+          this.blogSortList.push(blogSortList[a])
           this.blogSortNameArray.push(blogSortList[a].name);
         }
         this.showPieBlogSortChart = true;
-    //   }
-    // });
+      }
+    });
   },
-  // init().then(response => {
-  //     if (response.code == this.$ECode.SUCCESS) {
-  //       this.blogTotal = response.data.blogCount;
-  //       this.commentTotal = response.data.commentCount;
-  //       this.userTotal = response.data.userCount;
-  //       this.visitAddTotal = response.data.visitCount;
-  //     }
-  //   });
-
-  //   getVisitByWeek().then(response => {
-  //     if (response.code == this.$ECode.SUCCESS) {
-  //       var visitByWeek = response.data;
-  //       var lineChartData = {
-  //         date: visitByWeek.date,
-  //         expectedData: visitByWeek.pv,
-  //         actualData: visitByWeek.uv
-  //       };
-  //       this.lineChartData = lineChartData;
-  //       this.showLineChart = true;
-  //     }
-  //   });
-
-  //   //通过标签获取博客数目
-  //   getBlogCountByTag().then(response => {
-  //     if (response.code == this.$ECode.SUCCESS) {
-  //       this.blogCountByTag = response.data;
-  //       var tagList = this.blogCountByTag;
-  //       for (var a = 0; a < this.blogCountByTag.length; a++) {
-  //         this.tagNameArray.push(tagList[a].name);
-  //       }
-  //       this.showPieChart = true;
-  //     }
-  //   });
-
-  //   //通过博客分类获取博客数目
-  //   getBlogCountByBlogSort().then(response => {
-  //     if (response.code == this.$ECode.SUCCESS) {
-  //       this.blogCountByBlogSort = response.data;
-  //       let blogSortList = this.blogCountByBlogSort;
-  //       for (var a = 0; a < this.blogCountByBlogSort.length; a++) {
-  //         this.blogSortNameArray.push(blogSortList[a].name);
-  //       }
-  //       this.showPieBlogSortChart = true;
-  //     }
-  //   });
-  // },
   methods: {
     //拿到vuex中的方法
     ...mapMutations(["setOpenNotification"]),
@@ -261,14 +225,14 @@ export default {
     clickBlogTagPie: function(index) {
       let tag = this.blogCountByTag[index];
       this.$router.push({
-        path: "/blog/blog",
+        path: "/manage/blogSort",
         query: { tag: tag }
       });
     },
     clickBlogSortPie: function(index) {
       let blogSort = this.blogCountByBlogSort[index];
       this.$router.push({
-        path: "/blog/blog",
+        path: "/blog/blogSort",
         query: { blogSort: blogSort }
       });
 
@@ -292,7 +256,7 @@ export default {
           break;
         case "4":
           {
-            this.$router.push({ path: "/blog/blog" });
+            this.$router.push({ path: "/manage/blogManage" });
           }
           break;
       }

@@ -13,6 +13,7 @@
         <module>blog-gen</module>
         <module>blog-job</module>
         <module>blog-file</module>
+        <module>blog-manage</module>
     </modules>
 
     <artifactId>blog-modules</artifactId>

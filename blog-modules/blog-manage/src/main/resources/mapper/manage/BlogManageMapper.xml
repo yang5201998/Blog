@@ -40,13 +40,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="blogTitle != null  and blogTitle != ''"> and a.blogTitle like concat('%', #{blogTitle}, '%')</if>
             <if test="summary != null  and summary != ''"> and a.summary like concat('%', #{summary}, '%')</if>
             <if test="content != null  and content != ''"> and a.content like concat('%', #{content}, '%')</if>
-            <if test="tagUid != null  and tagUid != ''"> and a.tag_uid like concat('%', #{tagUid}, '%')</if>
+            <if test="tagUid != null  and tagUid != ''">
+                <foreach collection='tagUid.split(",") ' item='tagUid'  open=" AND (" close=")" separator=" AND ">
+                    find_in_set(#{tagUid},  a.tag_uid)
+                </foreach>
+             </if>
             <if test="clickCount != null "> and a.click_count = #{clickCount}</if>
             <if test="collectCount != null "> and a.collect_count = #{collectCount}</if>
             <if test="imgUid != null  and imgUid != ''"> and a.img_uid = #{imgUid}</if>
             <if test="status != null "> and a.status = #{status}</if>
             <if test="author != null  and author != ''"> and a.author like concat('%', #{author}, '%')</if>
-            <if test="blogSortUid != null  and blogSortUid != ''"> and a.blog_sort_uid like concat('%', #{blogSortUid}, '%')</if>
+            <if test='blogSortUid != null  and blogSortUid != "" '>
+                <foreach collection='blogSortUid.split(",") ' item='blogSortUid'  open=" AND (" close=")" separator=" AND ">
+                     find_in_set(#{blogSortUid},  a.blog_sort_uid)
+                </foreach>
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(a.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(a.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
             <if test="level != null "> and a.level = #{level}</if>
             <if test="sort != null "> and a.sort = #{sort}</if>
             <if test="openComment != null "> and a.open_comment = #{openComment}</if>

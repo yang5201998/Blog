@@ -5,13 +5,15 @@ import java.util.UUID;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.core.utils.DateUtils;
-import com.blog.common.core.utils.JwtUtils;
+import com.blog.common.security.utils.SecurityUtils;
 import com.blog.manage.service.BlogSortService;
+import com.blog.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.stereotype.Service;
 import com.blog.manage.mapper.BlogSortMapper;
 import com.blog.manage.domain.BlogSort;
-import com.blog.manage.service.BlogSortService;
 
 /**
  * 博客分类Service业务层处理
@@ -62,6 +64,9 @@ public class BlogSortServiceImpl extends ServiceImpl<BlogSortMapper,BlogSort> im
             String uuid = UUID.randomUUID().toString().replace("-", "");
             blogSort.setUid(uuid);
         }
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        String username = loginUser.getUsername();
+        blogSort.setCreateBy(username);
         blogSort.setCreateTime(DateUtils.getNowDate());
         return blogSortMapper.insertBlogSort(blogSort);
     }

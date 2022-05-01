@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="blogSortName">
+      <el-form-item label="标签名称" prop="tagName">
         <el-input
-          v-model="queryParams.blogSortName"
-          placeholder="请输入分类名称"
+          v-model="queryParams.tagName"
+          placeholder="请输入标签名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建时间">
+       <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
           style="width: 240px"
@@ -34,7 +34,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['manage:blogSort:add']"
+          v-hasPermi="['manage:blogTag:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +45,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['manage:blogSort:edit']"
+          v-hasPermi="['manage:blogTag:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -56,24 +56,23 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['manage:blogSort:remove']"
+          v-hasPermi="['manage:blogTag:remove']"
         >删除</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" ref="blogSortTable" :data="blogSortList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="blogTagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="分类名称" align="center" prop="blogSortName" />
-      <el-table-column label="分类简介" align="center" prop="blogSortContent" />
-      <el-table-column label="使用量" sortable align="center" prop="sortUsed" />
-      <el-table-column label="分类排序" sortable align="center" prop="blogSorts" >
-        <template slot-scope="scope">
+      <el-table-column label="标签名称" align="center" prop="tagName" />
+      <el-table-column label="标签使用量" sortable align="center" prop="tagUsed" />
+      <el-table-column label="排序" sortable align="center" prop="sort" >
+       <template slot-scope="scope">
         <el-tag
               style="margin-left: 3px"
               type="danger"
-            >{{scope.row.blogSorts}}</el-tag>
+            >{{scope.row.sort}}</el-tag>
       </template>
       </el-table-column>
        <el-table-column label="状态" align="center" width="100">
@@ -104,19 +103,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['manage:blogSort:edit']"
+            v-hasPermi="['manage:blogTag:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['manage:blogSort:remove']"
+            v-hasPermi="['manage:blogTag:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -125,26 +124,17 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改博客分类对话框 -->
+    <!-- 添加或修改博客标签对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="blogSortName">
-          <el-input v-model="form.blogSortName" placeholder="请输入分类名称" />
+        <el-form-item label="标签内容">
+          <editor v-model="form.tagName" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="分类简介">
-          <editor v-model="form.blogSortContent" :min-height="192"/>
+        <el-form-item label="标签使用量" prop="tagUsed">
+          <el-input v-model="form.tagUsed" placeholder="请输入标签使用量" />
         </el-form-item>
-        <el-form-item label="分类排序" prop="blogSorts">
-          <el-input v-model="form.blogSorts" placeholder="请输入分类排序" />
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.blog_status"
-              :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+        <el-form-item label="排序字段，越大越靠前" prop="sort">
+          <el-input v-model="form.sort" placeholder="请输入排序字段，越大越靠前" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -156,11 +146,10 @@
 </template>
 
 <script>
-import { listBlogSort, getBlogSort, delBlogSort, addBlogSort, updateBlogSort,changeBlogSortStatus } from "@/api/blog/blogSort";
+import { listBlogTag, getBlogTag, delBlogTag, addBlogTag, updateBlogTag } from "@/api/blog/blogTag";
 
 export default {
-  name: "BlogSort",
-  dicts: ['blog_status'],
+  name: "BlogTag",
   data() {
     return {
       // 遮罩层
@@ -175,36 +164,33 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 博客分类表格数据
-      blogSortList: [],
+      // 博客标签表格数据
+      blogTagList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 日期范围
-      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        blogSortName: null,
-        blogSortContent: null,
+        tagName: null,
         status: null,
-        blogSorts: null,
-        sortUsed: null
+        tagUsed: null,
+        sort: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        status: [
+          { required: true, message: "状态不能为空", trigger: "blur" }
+        ],
         createTime: [
           { required: true, message: "创建时间不能为空", trigger: "blur" }
         ],
         updateTime: [
           { required: true, message: "更新时间不能为空", trigger: "blur" }
-        ],
-        status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
         ],
       }
     };
@@ -213,25 +199,14 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询博客分类列表 */
+    /** 查询博客标签列表 */
     getList() {
       this.loading = true;
-      listBlogSort(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        console.log("response",response);
-        this.blogSortList = response.rows;
+      listBlogTag(this.queryParams).then(response => {
+        console.log("response",response)
+        this.blogTagList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
-    },
-        // 分类状态修改
-    handleStatusChange(row) {
-      let text = row.status === "0" ? "停用" : "启用";
-      this.$modal.confirm('确认要"' + text + '""' + row.blogSortName + '"分类吗？').then(function() {
-        return changeBlogSortStatus(row.uid, row.status);
-      }).then(() => {
-        this.$modal.msgSuccess(text + "成功");
-      }).catch(function() {
-        row.status = row.status === "0" ? "0" : "1";
       });
     },
     // 取消按钮
@@ -242,27 +217,23 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        id:null,
         uid: null,
-        blogSortName: null,
-        blogSortContent: null,
+        tagName: null,
+        status: 0,
+        tagUsed: null,
         createTime: null,
         updateTime: null,
-        status: 0,
-        blogSorts: null,
-        sortUsed: null
+        sort: null
       };
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      this.$refs.blogSortTable.clearSort();
       this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -276,17 +247,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.form.status='0';
-      this.title = "添加博客分类";
+      this.title = "添加博客标签";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const uid = row.uid || this.ids
-      getBlogSort(uid).then(response => {
+      getBlogTag(uid).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改博客分类";
+        this.title = "修改博客标签";
       });
     },
     /** 提交按钮 */
@@ -294,13 +264,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.uid != null) {
-            updateBlogSort(this.form).then(response => {
+            updateBlogTag(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addBlogSort(this.form).then(response => {
+            addBlogTag(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -311,15 +281,20 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log("row",row)
       const uids = row.uid || this.ids;
-      this.$modal.confirm('是否确认删除博客分类序号为"' + row.id + '"的数据项？').then(function() {
-        return delBlogSort(uids);
+      this.$modal.confirm('是否确认删除博客标签编号为"' + uids + '"的数据项？').then(function() {
+        return delBlogTag(uids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('manage/blogTag/export', {
+        ...this.queryParams
+      }, `blogTag_${new Date().getTime()}.xlsx`)
+    }
   }
 };
 </script>

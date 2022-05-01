@@ -23,6 +23,12 @@
 <!--            <version>3.4.0</version>-->
 <!--        </dependency>-->
 
+        <!-- RuoYi Api System -->
+<!--        <dependency>-->
+<!--            <groupId>com.blog</groupId>-->
+<!--            <artifactId>blog-api-system</artifactId>-->
+<!--        </dependency>-->
+
         <!--   MybatisPlus模块-->
         <dependency>
             <groupId>com.blog</groupId>

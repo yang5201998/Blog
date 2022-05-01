@@ -60,4 +60,5 @@ public interface BlogManageService extends IService<BlogManage>
      * @return 结果
      */
     public int deleteBlogManageByUid(String uid);
+
 }

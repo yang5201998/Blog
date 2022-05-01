@@ -3,6 +3,8 @@ package com.blog.manage.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.blog.common.core.domain.R;
+import com.blog.common.core.web.page.TableDataInfo;
 import com.blog.manage.service.BlogSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,9 @@ import com.blog.common.log.annotation.Log;
 import com.blog.common.log.enums.BusinessType;
 import com.blog.common.security.annotation.RequiresPermissions;
 import com.blog.manage.domain.BlogSort;
-import com.blog.manage.service.BlogSortService;
 import com.blog.common.core.web.controller.BaseController;
 import com.blog.common.core.web.domain.AjaxResult;
 import com.blog.common.core.utils.poi.ExcelUtil;
-import com.blog.common.core.web.page.TableDataInfo;
 
 /**
  * 博客分类Controller
@@ -41,19 +41,19 @@ public class BlogSortController extends BaseController
      */
     @RequiresPermissions("manage:blogSort:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlogSort blogSort)
+    public TableDataInfo selectBlogSortList(BlogSort blogSort)
     {
         startPage();
         List<BlogSort> list = blogSortService.selectBlogSortList(blogSort);
         return getDataTable(list);
-    }
+}
 
     /**
      * 导出博客分类列表
      */
     @RequiresPermissions("manage:blogSort:export")
     @Log(title = "博客分类", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
+    @GetMapping("/export")
     public void export(HttpServletResponse response, BlogSort blogSort)
     {
         List<BlogSort> list = blogSortService.selectBlogSortList(blogSort);
@@ -106,6 +106,7 @@ public class BlogSortController extends BaseController
     public AjaxResult changeStatus(@RequestBody BlogSort blogSort){
        return toAjax(blogSortService.updateBlogSortStatus(blogSort));
     }
+
     /**
      * 删除博客分类
      */

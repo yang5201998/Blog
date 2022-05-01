@@ -1,9 +1,10 @@
 package com.blog.manage.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.core.annotation.Excel;
 import com.blog.common.core.web.domain.BaseEntity;
-import lombok.Data;
+import com.blog.common.core.web.domain.BlogEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -11,32 +12,43 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 博客标签对象 back_tag
  *
  * @author ytw杨
- * @date 2022-04-14
+ * @date 2022-04-24
  */
-@Data
 @TableName("back_tag")
-public class BlogTag extends BaseEntity
+public class BlogTag extends BlogEntity
 {
     private static final long serialVersionUID = 1L;
+
+    //序号
+    @TableField(exist = false)
+    private Long id;
 
     /** 唯一uid */
     private String uid;
 
     /** 标签内容 */
     @Excel(name = "标签内容")
-    private String content;
+    private String tagName;
 
     /** 状态 */
     @Excel(name = "状态")
     private Integer status;
 
-    /** 标签简介 */
-    @Excel(name = "标签简介")
-    private Long clickCount;
+    /** 标签使用量 */
+    @Excel(name = "标签使用量")
+    private Long tagUsed;
 
     /** 排序字段，越大越靠前 */
     @Excel(name = "排序字段，越大越靠前")
     private Long sort;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setUid(String uid)
     {
@@ -47,15 +59,15 @@ public class BlogTag extends BaseEntity
     {
         return uid;
     }
-    public void setContent(String content)
-    {
-        this.content = content;
+
+    public String getTagName() {
+        return tagName;
     }
 
-    public String getContent()
-    {
-        return content;
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
     }
+
     public void setStatus(Integer status)
     {
         this.status = status;
@@ -65,14 +77,14 @@ public class BlogTag extends BaseEntity
     {
         return status;
     }
-    public void setClickCount(Long clickCount)
+    public void setTagUsed(Long tagUsed)
     {
-        this.clickCount = clickCount;
+        this.tagUsed = tagUsed;
     }
 
-    public Long getClickCount()
+    public Long getTagUsed()
     {
-        return clickCount;
+        return tagUsed;
     }
     public void setSort(Long sort)
     {
@@ -88,9 +100,9 @@ public class BlogTag extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("uid", getUid())
-            .append("content", getContent())
+            .append("tagName", getTagName())
             .append("status", getStatus())
-            .append("clickCount", getClickCount())
+            .append("tagUsed", getTagUsed())
             .append("createTime", getCreateTime())
             .append("updateTime", getUpdateTime())
             .append("sort", getSort())

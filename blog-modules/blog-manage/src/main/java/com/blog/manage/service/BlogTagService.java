@@ -1,5 +1,6 @@
 package com.blog.manage.service;
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.manage.domain.BlogTag;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * 博客标签Service接口
  *
  * @author ytw杨
- * @date 2022-04-14
+ * @date 2022-04-24
  */
 public interface BlogTagService extends IService<BlogTag>
 {
@@ -60,5 +61,4 @@ public interface BlogTagService extends IService<BlogTag>
      * @return 结果
      */
     public int deleteBlogTagByUid(String uid);
-
 }

@@ -1,8 +1,5 @@
 package com.blog.manage.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.common.core.utils.DateUtils;
 import com.blog.common.core.utils.StringUtils;
@@ -18,11 +15,8 @@ import com.blog.manage.service.BlogTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.Predicate;
 
 
 /**
@@ -36,6 +30,8 @@ public class BlogManageServiceImpl extends ServiceImpl<BlogManageMapper, BlogMan
 {
     @Autowired
     private BlogManageMapper blogManageMapper;
+    @Autowired
+    private BlogManageService blogManageService;
 
     @Autowired
     private BlogSortMapper blogSortMapper;
